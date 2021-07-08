@@ -174,3 +174,34 @@ int majorityElement(int a[], int size)
         return -1;
     }
 /***************************************************************************************************/
+// Find Pair Given Difference - https://practice.geeksforgeeks.org/problems/find-pair-given-difference1559/1#
+int binarysearch(int arr[], int n, int k){
+        // code here
+        int l = 0; 
+        int h = n-1;
+        int mid;
+        while(l<=h){
+            mid = (l + h)/2;
+            if(arr[mid] == k)
+                return mid;
+            else if(arr[mid] > k)
+                h = mid - 1;
+            else 
+                l = mid + 1;
+        }
+        return -1;
+    }
+bool findPair(int arr[], int n, int x){
+    //code
+   sort(arr, arr+n);
+   int key;
+   for(int i = 0; i<n; i++){
+       key = x + arr[i];
+       int val = binarysearch(arr, n, key);
+       if(val != -1 && val != i) 
+         return true;
+   }
+   return false;
+    
+}
+/*******************************************************************************************************/ 
