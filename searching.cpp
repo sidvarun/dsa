@@ -94,3 +94,29 @@ int Search(vector<int> v, int k) {
         return bSearch(v, pivot+1, n-1, k);
     return -1;
 }
+/***************************************************************************************/
+// Count Squares - https://practice.geeksforgeeks.org/problems/count-squares3649/1#
+class Solution {
+  public:
+    int countSquares(int n) {
+        // code here
+        int low = 1;
+        int high = n;
+        long long mid;
+        int res = 0;
+        while(low <= high){
+            mid = low + (high - low) / 2;
+            if(mid*mid > n)
+                high = mid - 1;
+            else if(mid * mid < n){
+                res = mid;
+                low = mid+1;
+            }
+            else{
+                res = mid - 1;
+                break;
+            }
+        }
+        return res;
+    }
+};
