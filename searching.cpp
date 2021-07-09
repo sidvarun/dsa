@@ -274,3 +274,28 @@ class Solution{
 	}
 };
 /************************************************************************************************************/
+// Zero Sum Subarrays - https://practice.geeksforgeeks.org/problems/zero-sum-subarrays1825/1
+
+class Solution{
+    public:
+    //Function to count subarrays with sum equal to 0.
+    ll findSubarray(vector<ll> arr, int n ) {
+        //code here
+        unordered_map<int, int> m;
+        m[arr[0]] = 1;
+        ll count = 0;
+        ll psum = arr[0];
+        if(arr[0] == 0)
+            count = 1;
+        for(int i = 1; i<n; i++){
+            psum += arr[i];
+            if(psum == 0 )
+                count++;
+            if(m.find(psum) != m.end())
+                count += m[psum];
+            m[psum]++;
+        }
+        return count;
+    }
+};
+/****************************************************************************/
