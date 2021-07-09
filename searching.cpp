@@ -204,4 +204,73 @@ bool findPair(int arr[], int n, int x){
    return false;
     
 }
-/*******************************************************************************************************/ 
+/*******************************************************************************************************/
+
+// Find All Four Sum Numbers - https://practice.geeksforgeeks.org/problems/find-all-four-sum-numbers1732/1#
+
+class Solution{
+    public:
+    // arr[] : int input array of integers
+    // k : the quadruple sum required
+    vector<vector<int> > fourSum(vector<int> &arr, int k) {
+        // Your code goes here
+        // int n = arr.size();
+        sort(arr.begin(), arr.end());
+        vector<vector<int>> res;
+        for(int i = 0; i < arr.size() - 3; i++){
+            for(int j = i+1; j < arr.size() - 2; j++){
+                int l = j+1;
+                int r = arr.size() - 1;
+                while(l<r){
+                  int sum = arr[i] + arr[j] + arr[l] + arr[r];
+                  if(sum == k){
+                      vector<int> t;
+                      t.push_back(arr[i]);
+                      t.push_back(arr[j]);
+                      t.push_back(arr[l]);
+                      t.push_back(arr[r]);
+                      res.push_back(t);
+                      l++;
+                      r--;
+                  }
+                  else if(sum > k)
+                    r--;
+                  else
+                    l++;
+                }
+                
+            }
+        }
+        sort(res.begin(), res.end());
+        res.erase(unique(res.begin(), res.end()), res.end());
+        return res;
+    }
+};
+/**************************************************************************************/
+// Count triplets with sum smaller than X - https://practice.geeksforgeeks.org/problems/count-triplets-with-sum-smaller-than-x5549/1#
+
+class Solution{
+	public:
+	long long countTriplets(long long arr[], int n, long long x)
+	{
+	    // Your code goes here
+	    sort(arr,arr+n);
+	    long long count = 0;
+	    for(int i = 0; i<n-2; i++){
+	        int j = i+1;
+	        int k = n-1;
+            while(j<k){
+                long long sum =  arr[i] + arr[j] + arr[k];
+                if(sum >= x)
+                    k--;
+                else{
+                    count += k-j;
+                    j++;
+                }
+            }
+	        
+	    }
+	    return count;
+	}
+};
+/************************************************************************************************************/
