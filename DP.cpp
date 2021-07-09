@@ -232,4 +232,23 @@ long long int count(long long int n)
         return dp[n][m];
 }
 /***********************************************************************/
+// Stickler Thief - https://practice.geeksforgeeks.org/problems/stickler-theif-1587115621/1
 
+class Solution
+{
+    public:
+    //Function to find the maximum money the thief can get.
+    int FindMaxSum(int arr[], int n)
+    {
+        // Your code here
+        int dp[n+1] = {0};
+        dp[0] = 0;
+        dp[1] = arr[0];
+        for(int i = 2; i<=n; i++)
+            dp[i] = max(arr[i-1] + dp[i-2], dp[i-1]);
+        return dp[n];
+        
+    }
+};
+
+/***************************************************************************/
