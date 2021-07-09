@@ -110,3 +110,25 @@ class Solution
     }
 };
 /***************************************************************************************************************/
+// Minimum Cost of ropes - https://practice.geeksforgeeks.org/problems/minimum-cost-of-ropes-1587115620/1
+class Solution
+{
+    public:
+    //Function to return the minimum cost of connecting the ropes.
+    long long minCost(long long arr[], long long n) {
+        // Your code here
+         priority_queue<long long, vector<long long>, greater<long long> > pq(arr, arr + n);
+         long long res = 0;
+         while(pq.size() > 1){
+             long long m1 = pq.top();
+             pq.pop();
+             long long m2 = pq.top();
+             pq.pop();
+             res += m1+m2;
+             pq.push(m1+m2);
+         }
+        
+         return res;
+    }
+};
+/****************************************************************************************************************/
