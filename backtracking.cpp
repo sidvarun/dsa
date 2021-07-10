@@ -65,3 +65,49 @@ class Solution{
     }
 };
 /**********************************************************************************************************************/
+// N-Queen Problem - https://practice.geeksforgeeks.org/problems/n-queen-problem0315/1#
+
+class Solution{
+public:
+    
+    bool isSafe(int row, int col, vector<vector<int>> &board){
+        for(int i=0; i<col; i++)
+            if(board[row][i] == 1)
+                return false;
+        for(int i=row, j=col; i>=0 && j>=0; i--, j--)
+            if(board[i][j] == 1)
+                return false;
+        for(int i=row, j=col; i<board.size() && j>=0; i++, j--)
+            if(board[i][j] == 1)
+                return false;
+        return true;
+    }
+    void nQueenRec(int n, vector<vector<int>> &res, int col, vector<vector<int>> &board){
+        if(col == n){
+            vector<int> v;
+            for(int j = 0; j<n; j++){
+                for(int i = 0; i<n; i++){
+                    if(board[j][i] == 1)
+                        v.push_back(i+1);
+                }
+            }
+            res.push_back(v);
+        }
+        for(int i = 0; i<n; i++){
+            if(isSafe(i, col, board)){
+                board[i][col] = 1;
+                nQueenRec(n, res, col+1, board);
+                board[i][col] = 0;
+            }
+        }
+    }
+    vector<vector<int>> nQueen(int n) {
+        // code here
+        vector<vector<int>> board(n, vector<int> (n, 0));
+        vector<vector<int>> res;
+        nQueenRec(n, res, 0, board);
+        sort(res.begin(), res.end());
+        return res;
+    }
+};
+/**************************************************************************************************/
