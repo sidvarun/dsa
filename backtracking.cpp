@@ -201,3 +201,45 @@ class Solution
     }
 };
 /********************************************************************************************/
+// Word Break - Part 2 - https://practice.geeksforgeeks.org/problems/word-break-part-23249/1#
+
+class Solution{
+public:
+    unordered_map<string, bool>mp;
+    void util(string s, vector<string> temp, vector<string> &res, int ind)
+    {
+        if(ind == s.size())
+        {
+            string curr = "";
+            for(string st:temp)
+            {
+                curr = curr+st+" ";
+            }
+            curr.pop_back();
+            res.push_back(curr);
+            return;
+        }
+        string st = "";
+        for(int i=ind;i<s.size();i++)
+        {
+            st+=s[i];
+            if(mp[st])
+            {
+                temp.push_back(st);
+                util(s,temp,res,i+1);
+                temp.pop_back();
+            }
+        }
+    }
+    vector<string> wordBreak(int n, vector<string>& dict, string s)
+    {
+        mp.clear();
+        for(auto s:dict) mp[s]=true;
+        int m = s.size();
+        vector<string>temp;
+        vector<string>res;
+        util(s,temp,res,0);
+        return res;
+    }
+};
+/*************************************************************************************************/
