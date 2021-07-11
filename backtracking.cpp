@@ -243,3 +243,34 @@ public:
     }
 };
 /*************************************************************************************************/
+// M-Coloring Problem - https://practice.geeksforgeeks.org/problems/m-coloring-problem-1587115620/1#
+
+bool isSafe(bool graph[101][101], int m, int V, vector<int> color, int u, int j){
+    for(int i = 0; i<V; i++){
+        if(graph[i][u] == 1 && color[i] == j)
+            return false;
+    }
+    return true;
+}
+
+bool graphColoringRec(bool graph[101][101], int m, int V, vector<int> &color, int u){
+    if(u == V)
+        return true;
+    for(int i = 0; i<m; i++){
+        if(isSafe(graph, m, V, color, u, i)){
+            color[u] = i;
+            if(graphColoringRec(graph, m, V, color, u+1))
+                return true;
+        }
+    }
+    color[u] = -1;
+    return false;
+}
+
+bool graphColoring(bool graph[101][101], int m, int V)
+{
+    // your code here
+    vector<int> color(V,-1);
+    return graphColoringRec(graph, m, V, color, 0);
+}
+/***********************************************************************************************/
