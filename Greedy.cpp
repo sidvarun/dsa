@@ -60,3 +60,37 @@ class Solution
         
 };
 /***********************************************************************************************************/
+// Job Sequencing Problem - https://practice.geeksforgeeks.org/problems/job-sequencing-problem-1587115620/1#
+
+class Solution 
+{
+    public:
+    //Function to find the maximum profit and the number of jobs done.
+    static bool myCmp(Job j1, Job j2){
+        return j1.profit>j2.profit;
+    }
+    vector<int> JobScheduling(Job arr[], int n) 
+    { 
+        // your code here
+        vector<int> v;
+        sort(arr, arr+n, myCmp);
+        int res = 0;
+        int count = 0;
+        bool full[n] = {false};
+        for(int i = 0; i<n; i++){
+            for(int j = min(n, arr[i].dead) - 1; j>=0; j--){
+                if(full[j] == false){
+                    count++;
+                    res += arr[i].profit;
+                    full[j] = true;
+                    break;
+                }
+            }
+        }
+        
+        v.push_back(count);
+        v.push_back(res);
+        return v;
+    } 
+};
+/***********************************************************************************************************/
