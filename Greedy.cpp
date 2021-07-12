@@ -94,3 +94,55 @@ class Solution
     } 
 };
 /***********************************************************************************************************/
+// Huffman Encoding - https://practice.geeksforgeeks.org/problems/huffman-encoding3345/1
+
+class Solution
+{
+	public:
+	    struct Node {
+        	// One of the input characters
+        	char data;
+        	// Frequency of the character
+        	unsigned freq;
+        	// Left and right child
+        	Node *left, *right;
+        
+        	Node(char data, unsigned freq, Node* l = NULL, Node* r = NULL){
+        
+        		this->left = l;
+        		this->right = r;
+        		this->data = data;
+        		this->freq = freq;
+        	}
+        };
+        struct compare {
+        	bool operator()(Node* l, Node* r){
+        		return (l->freq > r->freq);
+        	}
+        };
+        void printCodes(struct Node* root, string str, vector<string> &res){
+        	if (!root)
+        		return;
+        	if (root->data != '$')
+        		res.push_back(str);
+        	printCodes(root->left, str + "0", res);
+        	printCodes(root->right, str + "1", res);
+        }
+		vector<string> huffmanCodes(string S,vector<int> f,int N){
+		    // Code here
+		    priority_queue<Node*, vector<Node*>, compare> h;
+		    for (int i = 0; i < N; ++i)
+		        h.push(new Node(S[i], f[i]));
+        	while (h.size() > 1) {
+        		Node *l = h.top();
+        		h.pop();
+        		Node *r = h.top();
+        		h.pop();
+        		Node *top = new Node('$', l->freq + r->freq, l, r);
+        		h.push(top);
+            }
+            vector<string> res;
+    		printCodes(h.top(), "", res);
+    		return res;
+		}
+};
