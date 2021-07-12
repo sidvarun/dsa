@@ -146,3 +146,81 @@ class Solution
     		return res;
 		}
 };
+/****************************************************************************************************************/
+// Huffman Decoding  - https://practice.geeksforgeeks.org/problems/huffman-decoding/1/?track=DSASP-Greedy&batchId=154#
+
+string decodeHuffmanData(struct MinHeapNode* root, string bs)
+{
+    // Code here
+    string str = "";
+    MinHeapNode *t = root;
+    int n = bs.length();
+    int i = 0;
+    for(; i<n;){
+        root = t;
+        while(root->data == '$'){
+            if(bs[i] == '0')
+                root = root->left;
+            else
+                root = root->right;
+            i++;
+        }
+        str = str + root->data;
+    }
+    return str;
+}
+/*****************************************************************************************************************/
+int findPlatform(int arr[], int dep[], int n)
+    {
+    	// Your code here
+    	vector<pair<int, int>> v;
+    	for(int i = 0; i<n; i++)
+    	    v.push_back({arr[i], dep[i]});
+    	sort(v.begin(), v.end());
+    	priority_queue<int, vector<int>, greater<int> > pq;
+    	int count = 1;
+    	pq.push(v[0].second);
+    	for(int i = 1; i<n; i++){
+    	    int t = pq.top();
+    	    if(v[i].first <= t){
+    	        count++;
+    	        pq.push(v[i].second);
+    	    }
+    	    else{
+    	        pq.pop();
+    	        pq.push(v[i].second);
+    	    }
+    	}
+    	return count;
+    }
+/*****************************************************************************************************************/
+// Minimum Platforms - https://practice.geeksforgeeks.org/problems/minimum-platforms-1587115620/1#
+class Solution{
+    public:
+    //Function to find the minimum number of platforms required at the
+    //railway station such that no train waits.
+    int findPlatform(int arr[], int dep[], int n)
+    {
+    	// Your code here
+    	int count;
+    	int res = INT_MIN;
+    	sort(arr, arr+n);
+    	sort(dep, dep+n);
+    	count = 1;
+    	int i = 1;
+    	int j = 0;
+    	while(i<n){
+    	    if(arr[i]>dep[j]){
+    	        j++;
+    	        count--;
+    	    }
+    	    else{
+    	        i++;
+    	        count++;
+    	        res = max(res,count);
+    	    }
+    	}
+    	return res;
+    }
+};
+/************************************************************************************************************/
