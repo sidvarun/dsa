@@ -224,3 +224,38 @@ class Solution{
     }
 };
 /************************************************************************************************************/
+// Shop in Candy Store - https://practice.geeksforgeeks.org/problems/shop-in-candy-store1145/1#
+
+class Solution
+{
+public:
+    vector<int> candyStore(int c[], int n, int k)
+    {
+        // Write Your Code here
+        vector<int> res;
+        int min, max;
+        min = 0;
+        max = 0;
+        sort(c, c+n);
+        int num = 0;
+        int i = 0;
+        while(num < n && i<n){
+            min += c[i];
+            num += k+1;
+            i++;
+        }
+        sort(c, c + n, greater<int>());
+        num = 0;
+        i = 0;
+        while(num < n && i<n){
+            max += c[i];
+            num +=k+1;
+            i++;
+        }
+        res.push_back(min);
+        res.push_back(max);
+        return res;
+    }
+};
+
+/*********************************************************************************************************/
