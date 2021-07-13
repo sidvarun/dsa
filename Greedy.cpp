@@ -280,3 +280,47 @@ class Solution{
     }   
 };
 /************************************************************************************************************/
+// Maximize sum(arr[i]*i) of an Array - https://practice.geeksforgeeks.org/problems/maximize-arrii-of-an-array0026/1
+class Solution{
+    public:
+    int Maximize(int a[],int n)
+    {
+        // Complete the function
+        sort(a, a+n);
+        long long int sum = 0;
+        for(long long int i = 0; i<n; i++){
+            sum = (sum%1000000007 + (a[i]*i)%1000000007)%1000000007;   
+        }
+        return sum;
+    }
+};
+/***************************************************************************************************************/
+// Maximize sum after K negations  - https://practice.geeksforgeeks.org/problems/maximize-sum-after-k-negations1149/1#
+
+class Solution{
+    public:
+    static bool compare(int a, int b){
+        return abs(a)<abs(b);
+    }
+    long long int maximizeSum(long long int a[], int n, int k)
+    {
+        // Your code goes here
+        sort(a, a+n, compare);
+        int i = n-1;
+        long long int sum = 0;
+        while(k>0 && i>0){
+            if(a[i] < 0){
+                a[i] = a[i] * -1;
+                k--;
+            }
+            i--;
+        }
+        if(k > 0 && k % 2 != 0){
+             a[0] = a[0] * -1;
+        }
+        for(i=0; i<n; i++)
+            sum += a[i];
+        return sum;
+    }
+};
+/******************************************************************************************************************/
