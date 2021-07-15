@@ -1114,3 +1114,33 @@ lass Solution{
     };
 
 
+/*********************/
+// 	while(!s1.empty() || !s2.empty()){
+// 	    if(s2.empty()){
+// 	        while(!s1.empty()){
+// 	            Node *curr = s1.top();
+// 	            s1.pop();
+// 	            if(curr->left){
+// 	                s2.push(curr->left);
+// 	            }
+// 	            if(curr->right){
+// 	                s2.push(curr->right);
+// 	            }
+// 	            res.push_back(curr->data);
+// 	        }
+// 	    }
+// 	    else if(s1.empty()){
+// 	        while(!s2.empty()){
+// 	            Node *curr = s2.top();
+// 	            s2.pop();
+// 	            if(curr->left){
+// 	                s1.push(curr->left);
+// 	            }
+// 	            if(curr->right){
+// 	                s1.push(curr->right);
+// 	            }
+// 	            res.push_back(curr->data);
+// 	        }
+// 	    }
+// 	}
+// 	return res;

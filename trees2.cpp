@@ -244,3 +244,185 @@ vector <int> zigZagTraversal(Node* root)
 	}
 }
 /***************************************************************************************************************/
+// Diagonal Traversal of Binary Tree - https://practice.geeksforgeeks.org/problems/diagonal-traversal-of-binary-tree/1
+
+vector<int> diagonal(Node *root)
+{
+   // your code here
+   vector<int> res;
+   if(!root)
+    return res;
+   queue<Node *> q;
+   q.push(root);
+   while(!q.empty()){
+       Node *curr = q.front();
+       q.pop();
+       Node *p = curr;
+       while(p){
+           if(p->left)
+            q.push(p->left);
+           res.push_back(p->data);
+           p = p->right;
+       }
+   }
+   return res;
+}
+/*********************************************************************************************************************/
+// Boundary Traversal of binary tree - https://practice.geeksforgeeks.org/problems/boundary-traversal-of-binary-tree/1#
+
+class Solution {
+public:
+    void printLeaves(Node *root, vector<int> &res){
+        if(!root)
+            return;
+        if(root->left == NULL && root->right == NULL)
+            res.push_back(root->data);
+        if(root->left)
+            printLeaves(root->left, res);
+        if(root->right)
+            printLeaves(root->right, res);
+    }
+    vector <int> printBoundary(Node *root)
+    {
+        //Your code here
+        vector<int> res;
+        if(!root)
+            return res;
+        res.push_back(root->data);
+        Node *p = root->left;
+        while(p){
+            if(!p->left && !p->right)
+                break;
+            res.push_back(p->data);
+
+            if(p->left){
+                p = p->left;
+            }
+            else if(p->right) {
+                p = p->right;
+            }
+        }
+        printLeaves(root, res);
+        p = root->right;
+        stack<int> s;
+        while(p){
+            if(!p->left && !p->right)
+                break;
+            s.push(p->data);
+
+            if(p->right){
+                p = p ->right;
+            }
+            else if(p->left) {
+                p = p->left;
+            }
+        }
+        while(!s.empty()){
+            res.push_back(s.top());
+            s.pop();
+        }
+        return res;
+    }
+};
+/***********************************************************************************/
+// Transform to Sum Tree - https://practice.geeksforgeeks.org/problems/transform-to-sum-tree/1#
+
+class Solution {
+  public:
+  
+    // Convert a given tree to a tree where every node contains sum of values of
+    // nodes in left and right subtrees in the original tree
+    void toSumTree(Node *root)
+    {
+        // Your code here
+        if(!root)
+            return;
+        if(!root->left && !root->right){
+            root->data = 0;
+            return;
+        }
+        int l = 0;
+        int r = 0;
+        if(root->left){
+            l = root->left->data;
+            toSumTree(root->left);
+            l += root->left->data;
+        }
+        if(root->right){
+            r = root->right->data;
+            toSumTree(root->right);
+            r += root->right->data;
+        }
+        root->data = l + r;
+    }
+};
+/**************************************************************************************************/
+// Leaf at same level - https://practice.geeksforgeeks.org/problems/leaf-at-same-level/1
+
+class Solution{
+  public:
+    int maxHeight(struct Node* root){
+        if(!root)
+            return 0;
+        return 1 + max(maxHeight(root->left), maxHeight(root->right));
+    }
+    int minDepth(Node *root)
+    {
+        // Corner case. Should never be hit unless the code is
+        // called on root = NULL
+        if (root == NULL)
+            return 0;
+     
+        // Base case : Leaf Node. This accounts for height = 1.
+        if (root->left == NULL && root->right == NULL)
+        return 1;
+       
+        int l = INT_MAX, r = INT_MAX;
+        // If left subtree is not NULL, recur for left subtree
+       
+        if (root->left)
+        l = minDepth(root->left);
+     
+        // If right subtree is not NULL, recur for right subtree
+        if (root->right)
+        r =  minDepth(root->right);
+     
+      //height will be minimum of left and right height +1
+        return min(l , r) + 1;
+    }
+    /*You are required to complete this method*/
+    bool check(Node *root)
+    {
+        //Your code here
+        return maxHeight(root) == minDepth(root);
+    }
+};
+/***************************************************************************************/
+// Sum Tree - https://practice.geeksforgeeks.org/problems/sum-tree/1
+class Solution
+{
+    public:
+    bool isSumTree(Node* root)
+    {
+         // Your code here
+         if(!root)
+            return true;
+         if(!root->left && !root->right)
+            return true;
+         if(isSumTree(root->left) && isSumTree(root->right)){
+             int l = 0;
+             int r = 0;
+             if(root->left)
+                l = root->left->data;
+             if(root->right)
+                r = root->right->data;
+             if(root->data == l+r){
+                root->data += l+r;                
+                return true;
+             }
+         }
+         return false;
+    }
+    
+};
+/********************************************************************************************/
