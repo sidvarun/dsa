@@ -355,4 +355,136 @@ class Solution
         return dp[x][y];
     }
 };
+/***********************************************************************************/
+// Remove all duplicates from a given string - https://practice.geeksforgeeks.org/problems/remove-all-duplicates-from-a-given-string4321/1
+class Solution{
+public:
+	string removeDuplicates(string str) {
+	    // code here
+	    map<char, int> m;
+	    string res = "";
+	    for(int i = 0; i<str.length(); i++){
+	        if(m.find(str[i]) == m.end()){
+	            res += str[i];
+	            m[str[i]] = 1;
+	        }
+	    }
+	    return res;
+	}
+};
+/**************************************************************************************/
+// Longest Repeating Subsequence - https://practice.geeksforgeeks.org/problems/longest-repeating-subsequence2004/1
+
+class Solution {
+	public:
+    	int lcs(int x, int y, string s1, string s2)
+        {
+            
+        // your code here
+            int dp[x+1][y+1];
+            for(int i = 0; i <= x; i++)
+                dp[i][0] = 0;
+                
+            for(int j = 0; j <= y; j++)
+                dp[0][j] = 0;
+            for(int i = 1; i <= x; i++)
+            {
+                for(int j = 1; j <= y; j++)
+                {
+                    if(s1[i-1] == s2[j-1] && i!=j)
+                        dp[i][j] = 1 + dp[i-1][j-1];
+                    else
+                        dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+            return dp[x][y];
+        }
+        
+		int LongestRepeatingSubsequence(string str){
+		    // Code here
+		    return lcs(str.length(), str.length(), str, str);
+		}
+
+};
+/*********************************************************************************************/
+
+// Next Permutation - https://practice.geeksforgeeks.org/problems/next-permutation5226/1#
+class Solution{
+public:
+    vector<int> nextPermutation(int n, vector<int> arr){
+        // code here
+        int i = n-1;
+        int ind1 = -1;
+        while(i>0){
+            if(arr[i-1]<arr[i]){
+                ind1 = i-1;
+                break;
+            }
+            i--;
+        }
+        if(ind1 == -1)
+        {
+            reverse(arr.begin(), arr.end());
+            
+            return arr;
+        }
+        for(i=n-1; i>ind1; i--){
+            if(arr[i]>arr[ind1])
+                break;
+        }
+        int ind2 = i;
+        swap(arr[ind1], arr[ind2]);
+        reverse(arr.begin()+ind1+1, arr.end());    
+        return arr;
+    }
+};
+/***************************************************************************************************/
+// Parenthesis Checker - https://practice.geeksforgeeks.org/problems/parenthesis-checker2744/1
+
+class Solution
+{
+    public:
+    //Function to check if brackets are balanced or not.
+    bool ismatch(char a, char b){
+        return (a=='(' && b==')') || (a=='{' && b=='}') || (a=='[' && b==']');
+    }
+    bool ispar(string x){
+        stack <char> s;
+        for(char i:x){
+            if(i=='(' || i=='{' || i=='[')
+                s.push(i);
+            else{
+                if(s.empty())
+                    return false;
+                if(!ismatch(s.top(),i))
+                    return false;
+                s.pop();
+            }
+        }
+        return s.empty();
+    }
+
+};
+/*****************************************************************************************************/
+// Convert a sentence into its equivalent mobile numeric keypad sequence  - https://practice.geeksforgeeks.org/problems/convert-a-sentence-into-its-equivalent-mobile-numeric-keypad-sequence0547/1#
+string printSequence(string s)
+{
+    //code here.
+    string res = "";
+    string ref = "22233344455566677778889999";
+    int n = s.length();
+    for(int i = 0; i<n; i++){
+        if (s[i] == ' ')
+            res = res + "0";
+        int pos = s[i] - 'A';
+        char t = ref[s[i] - 'A'];
+        int f = ref.find(t);
+        int l = pos - f +1;
+        for(int j = 0; j<l; j++)
+            res += t;
+    }
+    return res;
+}
+/*******************************************************************************************************/
+
 

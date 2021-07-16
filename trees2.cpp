@@ -426,3 +426,33 @@ class Solution
     
 };
 /********************************************************************************************/
+// Sum of the Longest Bloodline of a Tree (Sum of nodes on the longest path from root to leaf node)  - https://practice.geeksforgeeks.org/problems/sum-of-the-longest-bloodline-of-a-tree/1#
+class Solution
+{
+public:
+    void sumRec(Node *root, int len, int sum, int &maxLen, int &maxSum){
+        if(!root){
+            if(len>maxLen){
+                maxLen = len;
+                maxSum = sum;
+            }
+            else if(len == maxLen && sum>maxSum){
+                maxSum = sum;
+            }
+            return;
+        }
+        sumRec(root->left, len+1, sum+root->data, maxLen, maxSum);
+        sumRec(root->right, len+1, sum+root->data, maxLen, maxSum);
+
+    }
+    int sumOfLongRootToLeafPath(Node *root)
+    {
+        if(!root)
+            return 0;
+        int maxSum = INT_MIN;
+        int maxLen = 0;
+        sumRec(root, 0, 0, maxLen, maxSum);
+        return maxSum;
+    }
+};
+/***************************************************************************************************/
