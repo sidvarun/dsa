@@ -740,5 +740,34 @@ class Solution {
     	}
 };
 /*************************************************************************/
+// Implementing Dijkstra Algorithm - https://practice.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1
+
+class Solution
+{
+	public:
+	//Function to find the shortest distance of all the vertices
+    //from the source vertex S.
+    vector <int> dijkstra(int V, vector<vector<int>> adj[], int s)
+    {
+        // Code here
+        priority_queue<pair<int, int>, vector<pair<int, int>>,  greater<pair<int, int>> > pq;
+        vector<int> dist(V, INT_MAX);
+        dist[s] = 0;
+        pq.push({0, s});
+        while(!pq.empty()){
+            int d = pq.top().first;
+            int u = pq.top().second;
+            pq.pop();
+            for(auto v : adj[u]){
+                if( d + v[1] < dist[v[0]]){
+                    dist[v[0]] = d + v[1];
+                    pq.push({dist[v[0]], v[0]});
+                }
+            }
+        }
+        return dist;
+    }
+};
+/***************************************************************************/
 
 
