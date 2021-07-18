@@ -484,7 +484,7 @@ class Solution
 {
 	public:
 	//Function to find number of strongly connected components in the graph.
-	void dfs(int u, vector<int>adj[], bool *vis, stack<int> &s){
+	void dfs(int u, vector<int>adj[], vector<bool> &vis, stack<int> &s){
         vis[u] = true;
         
         for(int v: adj[u]){
@@ -501,7 +501,7 @@ class Solution
         stack<int> s;
         int cnt = 0;
         
-        bool vis[V];    memset(vis, false, sizeof(vis));
+        vector<bool> vis(V, false);
         for(int i=0; i<V; i++){
             if(!vis[i]){
                 dfs(i, adj, vis, s);
@@ -516,9 +516,10 @@ class Solution
             }
         }
         
-        stack<int> st;
+        stack<int> st; // This stack has no use, its places just that we dont have to write a seperate DFS
         cnt = 0;
-        memset(vis, false, V);
+        for(int i = 0; i<V; i++)
+            vis[i] = false;
         
         while(!s.empty()){
             if(!vis[s.top()]){
@@ -769,5 +770,277 @@ class Solution
     }
 };
 /***************************************************************************/
+// Minimum Spanning Tree - https://practice.geeksforgeeks.org/problems/minimum-spanning-tree/1#
+
+class Solution
+{
+	public:
+	//Function to find sum of weights of edges of the Minimum Spanning Tree.
+    int spanningTree(int V, vector<vector<int>> adj[]){
+        // code here
+        vector<int> key(V, INT_MAX);
+        vector<bool> mst(V, false);
+        vector<int> parent(V, -1);
+        key[0] = 0;
+        // mst[0] = true;
+        int num = 1;
+        int u = 0;
+        while(num <= V){
+            mst[u] = true;
+            for(auto v : adj[u]){
+                if(mst[v[0]] == false){
+                    if(v[1] < key[v[0]]){
+                        key[v[0]] = v[1];
+                        parent[v[0]] = u;
+                    }
+                }
+            }
+            int min = INT_MAX;
+            for(int i = 0; i<key.size(); i++){
+                if(mst[i] == false && key[i]<min){
+                    min = key[i];
+                    u = i;
+                }
+            }
+            num++;
+        }
+        int res = 0;
+        for(int i = 0; i<key.size(); i++)
+            res+=key[i];
+        return res;
+    }
+};
+/***************************************************************************************/
+// Distance from the Source (Bellman-Ford Algorithm)  - https://practice.geeksforgeeks.org/problems/distance-from-the-source-bellman-ford-algorithm/0/?fbclid=IwAR2_lL0T84DnciLyzMTQuVTMBOi82nTWNLuXjUgahnrtBgkphKiYk6xcyJU#
+class Solution{
+	public:
+	/*  Function to implement Dijkstra
+    *   adj: vector of vectors which represents the graph
+    *   S: source vertex to start traversing graph with
+    *   V: number of vertices
+    */
+    vector <int> bellman_ford(int V, vector<vector<int>> adj, int S) {
+        // Code here
+        vector<int> dist(V, 100000000);
+        dist[S] = 0;
+        for(int i = 0; i<V-1; i++){
+            bool notUpdate = true;
+            for(auto edge : adj){
+                int u = edge[0];
+                int v = edge[1];
+                int w = edge[2];
+                if(dist[u] + w < dist[v]){
+                    dist[v] = dist[u] + w;
+                     notUpdate = false;
+                }
+            }
+            if(notUpdate)
+                break;
+        }
+        return dist;
+    }
+};
+/******************************************************************************************/
+// Negative weight cycle - https://practice.geeksforgeeks.org/problems/negative-weight-cycle3504/1
+
+class Solution {
+public:
+	int isNegativeWeightCycle(int V, vector<vector<int>>adj){
+	    // Code here
+	    vector<int> dist(V, 100000000);
+        dist[0] = 0;
+        for(int i = 0; i<V-1; i++){
+            bool notUpdate = true;
+            for(auto edge : adj){
+                int u = edge[0];
+                int v = edge[1];
+                int w = edge[2];
+                if(dist[u] + w < dist[v]){
+                    dist[v] = dist[u] + w;
+                     notUpdate = false;
+                }
+            }
+            if(notUpdate)
+                break;
+        }
+        for(auto edge : adj){
+                int u = edge[0];
+                int v = edge[1];
+                int w = edge[2];
+                if(dist[u] + w < dist[v]){
+                    return 1;
+                }
+        }
+        return 0;
+        
+	}
+};
+/************************************************************************************************/
+// Alien Dictionary - https://practice.geeksforgeeks.org/problems/alien-dictionary/1#
+
+class Solution{
+    public:
+    void dfs(int u, stack<int> &st, vector<int> adj[], bool visited[]){
+	    visited[u] = true;
+	    for(auto v : adj[u]){
+	        if(visited[v] == false)
+	            dfs(v, st, adj, visited);
+	    }
+	    st.push(u);
+	}
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    // code here
+	    bool visited[V] = {false};
+	    stack<int> st;
+	    vector<int> res;
+	    for(int i = 0; i<V; i++){
+	        if(visited[i] == false)
+	            dfs(i, st, adj, visited);
+	    }
+	    while(!st.empty()){
+	        res.push_back(st.top());
+	        st.pop();
+	    }
+	    return res;
+	}
+    string findOrder(string dict[], int n, int k) {
+        //code here
+        set<int> adj[k];
+        for(int i = 0; i<n-1; i++){
+            string s1 = dict[i];
+            string s2 = dict[i+1];
+            int x = 0;
+            int y = 0;
+            while(x<s1.length() && y<s2.length()){
+                if(s1[x] != s2[y]){
+                    adj[s1[x] - 'a'].insert(s2[y] - 'a');
+                    break;
+                }
+                x++;
+                y++;
+            }
+        }
+        vector<int> adj1[k];
+        for(int i = 0; i<k; i++){
+            for(auto j : adj[i])
+                adj1[i].push_back(j);
+        }
+        vector<int> res = topoSort(k, adj1);
+        string str = "";
+        for(auto c : res){
+            str +=char(c + 'a');
+            // cout<<char(c + 'a')<<" ";
+        }
+        return str;
+    }
+};
+/*****************************************************************************************/
+
+int bfs(int s, vector<pair<int, int>> adj[]){
+        bool visited[31];
+        int dist[31];
+        queue<int> q;
+        
+        fill(dist, dist+31, -1);
+        dist[s] = 0;
+        q.push(s);
+        visited[s] = true;
+        int throws = 0;
+        
+        while(!q.empty()){
+            throws++;
+            int u = q.front();
+            q.pop();
+    
+            for(auto v : adj[u]){
+                if(visited[v.first]==false){
+                    dist[v.first] = dist[u] + v.second;
+                    visited[v.first] = true;
+                    q.push(v.first);
+                }
+            }
+        }
+        /*for(int i=1; i<31; i++)
+            cout<<dist[i]<<" ";*/
+        return dist[30];
+    }
+    int minThrow(int N, int arr[]){
+        // code here
+        vector<pair<int, int>> adj[31];
+        for(int i = 0; i<2*N - 1;){
+            adj[arr[i]].push_back({arr[i+1], 0});
+            i=i+2;
+        }
+        for(int i = 1; i<30; i++){
+            if(adj[i].empty()){
+                int c = 0;
+                int j = i+1;
+                while(j<=30 && c<=6){
+                    adj[i].push_back({j, 1});
+                    j++;
+                    c++;
+                }
+            }
+        }
+        // adj[30].push_back({1, 1});
+
+        return bfs(1, adj);
+    }
+
+    //////////////////////////////////////////////////////////////////
+    // Snake and Ladder Problem - https://practice.geeksforgeeks.org/problems/snake-and-ladder-problem4816/1#
 
 
+class Solution{
+    public:
+        int bfsAdjList(int s, vector<int> adj[]){
+        bool visited[31];
+        int dist[31];
+        queue<int> q;
+        
+        fill(dist, dist+31, -1);
+        dist[s] = 0;
+        q.push(s);
+        visited[s] = true;
+        int throws = 0;
+        
+        while(!q.empty()){
+            throws++;
+            int v = q.front();
+            q.pop();
+    
+            for(int u : adj[v]){
+                if(visited[u]==false){
+                    dist[u] = dist[v]+1;
+                    visited[u] = true;
+                    q.push(u);
+                }
+            }
+        }
+  
+        return dist[30];
+    }
+    
+    int minThrow(int n, int arr[]){
+        /*Hash map for start and end of ladder/snake*/
+        unordered_map<int, int> um;
+        for(int i=0; i<n*2; i+=2)
+            um[arr[i]] = arr[i+1];
+        
+        /*Make adj list for graph*/
+        vector<int> adj[31];
+        for(int i=1; i<30; i++){
+            for(int j=0; j<6; j++){
+                if(i+j+1 <31){
+                    if(um.find(i+j+1) != um.end())
+                        adj[i].push_back(um[i+j+1]);
+                    else
+                        adj[i].push_back(i+j+1);
+                }
+            }
+        }
+        return bfsAdjList(1, adj);
+    }
+};
+/******************************************************************************************/
