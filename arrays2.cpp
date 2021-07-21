@@ -399,3 +399,33 @@ class Solution{
     }
 };
 /**************************************************************************************/
+// Factorials of large numbers  - https://practice.geeksforgeeks.org/problems/factorials-of-large-numbers2508/1
+
+class Solution {
+public:
+    void factRec(int n, vector<int> &res){
+        if(n == 0 || n == 1){
+            res.push_back(1);
+            return;
+        }
+        factRec(n-1, res);
+        int carry = 0;
+        int calc = 0;
+        for(int i = res.size() - 1; i >= 0; i--){
+            calc = (res[i] * n + carry) % 10;
+            carry = (res[i] * n + carry) / 10;
+            res[i] = calc;
+        }
+        while(carry != 0){
+            res.insert(res.begin(), carry%10);
+            carry /= 10;
+        }
+    }
+    vector<int> factorial(int n){
+        // code here
+        vector<int> res;
+        factRec(n, res);
+        return res;
+    }
+};
+/***********************************************************************************************/
