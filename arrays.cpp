@@ -476,3 +476,48 @@ int main()
 }
 /************************************************************************************************/
 
+// Maximum of all subarrays of size k - https://practice.geeksforgeeks.org/problems/maximum-of-all-subarrays-of-size-k3101/1#
+
+class Solution
+{
+  public:
+    //Function to find maximum of each subarray of size k.
+    vector<int> max_of_subarrays(int *arr, int n, int k)
+    {
+        deque<int> dq;
+        
+        for(int i = 0; i < min(k, n); i++)
+        {
+            while(!dq.empty() and arr[i] >= arr[dq.back()])
+            {
+                dq.pop_back();
+            }
+            
+            dq.push_back(i);
+        }
+        
+        vector<int> res;
+        
+        for(int i = k; i < n; i++)
+        {
+            res.push_back(arr[dq.front()]);
+            
+            while(!dq.empty() and (i - k) >= dq.front())
+            {
+                dq.pop_front();
+            }
+            
+            while(!dq.empty() and arr[i] >= arr[dq.back()])
+            {
+                dq.pop_back();
+            }
+            
+            dq.push_back(i);
+        }
+        
+        res.push_back(arr[dq.front()]);
+        
+        return res;
+    }
+};
+/*************************************************************/
