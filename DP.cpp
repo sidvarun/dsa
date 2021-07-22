@@ -253,3 +253,30 @@ class Solution
 
 /***************************************************************************/
 
+// Matrix Chain Multiplication - https://practice.geeksforgeeks.org/problems/matrix-chain-multiplication0303/1
+
+class Solution{
+public:
+    int solve(int arr[], vector<vector<int>> &dp, int i, int j){
+        if(i >= j)
+            return 0;
+        int res = INT_MAX;
+        if(dp[i][j] != -1)
+            res = dp[i][j];
+        else{
+            for(int k = i; k<j; k++){
+                int tempRes = solve(arr, dp, i, k) + solve(arr, dp, k+1, j) + arr[i-1] * arr[k] * arr[j];
+                res = min(res, tempRes);
+                dp[i][j] = res;
+            }
+        }
+        return res;
+    }
+    int matrixMultiplication(int n, int arr[])
+    {
+        // code here
+        vector<vector<int>> dp(n, vector<int> (n, -1));
+        return solve(arr, dp, 1, n-1);
+    }
+};
+/***************************************************************************/

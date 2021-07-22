@@ -495,3 +495,23 @@ class Solution{
     }
 };
 /*************************************************************************************************************/
+class Solution {
+public:
+    int addRungs(vector<int>& rungs, int dist){
+        int res = 0;
+        if(rugs[0]%dist == 0)
+            res = rugs[0]/dist - 1;
+        else
+            res = rugs[0]/dist;
+        for(int i = 1; i<rugs.size() - 1; i++){
+            int diff = rugs[i+1] - rugs[i];
+            if(diff > dist){
+                if(diff % dist == 0)
+                    res += diff/dist - 1;
+                else
+                    res += diff/dist;
+            }
+        }
+        return res;
+    }
+};
