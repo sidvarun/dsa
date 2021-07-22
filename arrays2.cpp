@@ -429,3 +429,69 @@ public:
     }
 };
 /***********************************************************************************************/
+// Maximum Product Subarray - https://practice.geeksforgeeks.org/problems/maximum-product-subarray3604/1#
+
+class Solution{
+public:
+
+	// Function to find maximum product subarray
+    long long maxProduct(int *arr, int n) {
+	    // Variables to store maximum and minimum
+	    // product till ith index.
+	    long long minVal = arr[0];
+	    long long maxVal = arr[0];
+
+	    long long maxProduct = arr[0];
+
+	    for (int i = 1; i < n; i++) {
+
+	        // When multiplied by -ve number,
+	        // maxVal becomes minVal
+	        // and minVal becomes maxVal.
+	        if (arr[i] < 0) swap(maxVal, minVal);
+
+	        // maxVal and minVal stores the
+	        // product of subarray ending at arr[i].
+	        maxVal = max((long long)arr[i], maxVal * arr[i]);
+	        minVal = min((long long)arr[i], minVal * arr[i]);
+
+	        // Max Product of array.
+	        maxProduct = max(maxProduct, maxVal);
+	    }
+
+	    // Return maximum product found in array.
+	    return maxProduct;
+	}
+};
+/******************************************************************************************************/
+// Longest consecutive subsequence  - https://practice.geeksforgeeks.org/problems/longest-consecutive-subsequence2449/1#
+
+class Solution{
+  public:
+    // arr[] : the input array
+    // N : size of the array arr[]
+    
+    //Function to return length of longest subsequence of consecutive integers.
+    int findLongestConseqSubseq(int arr[], int n)
+    {
+      //Your code here
+      set<int> s;
+      for(int i = 0; i<n; i++)
+        s.insert(arr[i]);
+      int c = 1;
+      int res = INT_MIN;
+      for (auto itr = s.begin(); itr != prev(s.end(), 1); itr++){
+            if( *itr + 1 == *next(itr,1)){
+                c++;
+                    // cout<<*itr + 1<< " "<<*next(itr,1)<<endl; 
+            }
+            else{
+                res = max(res, c);
+                c = 1;
+            }
+       }
+       res = max(c, res);
+       return res;
+    }
+};
+/*************************************************************************************************************/
