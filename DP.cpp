@@ -280,3 +280,191 @@ public:
     }
 };
 /***************************************************************************/
+
+// Palindromic patitioning - https://practice.geeksforgeeks.org/problems/palindromic-patitioning4845/1#
+
+class Solution{
+public:
+    bool isPalindrome(string str, int i, int j){
+        int l = i;
+        int r = j;
+        while(l<r){
+            if(str[l] != str[r])
+                return false;
+            l++;
+            r--;
+        }
+        return true;
+    }
+    int solve(string &str, vector<vector<int>> &dp, int i, int j){
+        if(i >= j)
+            return 0;
+        if(dp[i][j] != -1)
+            return dp[i][j];
+        if(isPalindrome(str, i, j)){
+            dp[i][j] = 0;
+            return dp[i][j];
+        }
+        int res = INT_MAX;
+        int tempRes;
+        for(int k = i; k<=j-1; k++){
+            tempRes = solve(str, dp, i, k) + solve(str, dp, k+1, j) + 1;
+            res = min(res, tempRes);
+        }
+        dp[i][j] = res;
+        return res;
+    }
+    int palindromicPartition(string str)
+    {
+        // code here
+        int n = str.length();
+        vector<vector<int>> dp(n, vector<int> (n, -1));
+        return solve(str, dp, 0, n-1);
+    }
+};
+/*****************************************************************************/
+public:
+    int solve(string &s, int i, int j, int val, vector<vector<vector<int>>> &dp){
+        if(dp[i][j][val] != -1)
+            return dp[i][j][val];
+        if(i>j){
+            dp[i][j][val] = 0;
+            return dp[i][j][val];
+        }
+        if(i == j){
+            if(val)
+                dp[i][j][val] = s[i] == 'T';
+            else
+                dp[i][j][val] = s[i] == 'F';
+            return dp[i][j][val];
+        }
+        int res = 0;
+        for(int k = i+1; k<j; k += 2){
+            if(dp[i][k-1][1] == -1)
+                solve(s, i, k-1, 1, dp);
+            if(dp[i][k-1][0] == -1)
+                solve(s, i, k-1, 0, dp);
+            if(dp[k+1][j][1] == -1)
+                solve(s, k+1, j, 1, dp);
+            if(dp[k+1][j][0] == -1)
+                solve(s, k+1, j, 0, dp);
+            int lt = dp[i][k-1][1];
+            int lf = dp[i][k-1][0];
+            int rt = dp[k+1][j][1];
+            int rf = dp[k+1][j][0];
+            // int lt = solve(s, i, k-1, 1, dp);
+            // int lf = solve(s, i, k-1, 0, dp);
+            // int rt = solve(s, k+1, j, 1, dp);
+            // int rf = solve(s, k+1, j, 0, dp);
+            if(s[k] == '|'){
+                if(val)
+                    res += lt * rt + lf * rt + lt * rf;
+                else
+                    res += lf * rf;
+            }
+                // res += solve(s, i, k-1, true, dp) * solve(s, k+1, j, true, dp) + solve(s, i, k-1, false, dp) * solve(s, k+1, j, true, dp) + solve(s, i, k-1, true, dp) *  solve(s, k+1, j, false, dp);
+            else if(s[k] == '&'){
+                if(val)
+                    res += lt * rt;
+                else
+                    res += lf * rf + lf * rt + lt * rf;
+            }
+
+                // res += solve(s, i, k-1, true, dp) * solve(s, k+1, j, true, dp);
+            else if(s[k] == '^'){
+                if(val)
+                    res += lt * rf + lf * rt;
+                else
+                    res += lt * rt + lf * rf;
+            }
+                // res += solve(s, i, k-1, true, dp) * solve(s, k+1, j, false, dp) + solve(s, i, k-1, false, dp) * solve(s, k+1, j, true, dp);
+        
+            dp[i][j][val] = res%1003;
+
+        }
+        // dp[i][j][val] = res%1003;
+        return dp[i][j][val]%1003;
+    }
+    int countWays(int n, string s){
+        // code here
+        vector<vector<vector<int>>> dp(n,vector<vector<int> >(n,vector <int>(2,-1)));
+        return solve(s, 0, n-1, 1, dp)%1003;
+    }
+
+    // Boolean Parenthesization  - https://practice.geeksforgeeks.org/problems/boolean-parenthesization5610/1#
+
+    class Solution{
+public:
+    int dp[210][210][3];
+    int rec(string &s,int i,int j,bool istrue){
+        if(i>j){
+            return dp[i][j][istrue] = 0;
+        }else if(i==j){
+            return dp[i][j][istrue] = (istrue)?((s[i]=='T')?1:0):((s[i]=='F')?1:0);
+        }
+        else if(dp[i][j][istrue]!=-1){
+            return dp[i][j][istrue];
+        }
+        int ans = 0;
+        for(int k=i+1;k<=j-1;k+=2){
+            
+            int lT;
+            if(dp[i][k-1][1]!=-1)  
+                lT = dp[i][k-1][1];
+            else                   
+                lT = rec(s,i,k-1,true) ;
+            
+            int lF;
+            if(dp[i][k-1][0]!=-1)  
+                lF = dp[i][k-1][0];
+            else
+                lF = rec(s,i,k-1,false);
+            
+            int rT;
+            if(dp[k+1][j][1]!=-1)  
+                rT = dp[k+1][j][1];
+            else
+                rT = rec(s,k+1,j,true);
+            
+            int rF;
+            if(dp[k+1][j][0]!=-1)
+                rF = dp[k+1][j][0];
+            else  
+                rF = rec(s,k+1,j,false);
+            
+            if(s[k]=='&'){
+                if(istrue){
+                    ans+=(lT*rT);
+                    dp[i][j][istrue] = ans;
+                }else{
+                    ans+=(lT*rF+lF*rT+rF*lF);
+                    dp[i][j][istrue] = ans;
+                }
+            }else if(s[k]=='|'){
+                if(istrue){
+                    ans+=(lT*rF+lF*rT+lT*rT);
+                    dp[i][j][istrue] = ans;
+                }else{
+                    ans+=(lF*rF);
+                    dp[i][j][istrue] = ans;
+                }
+            }else if(s[k]=='^'){
+                if(istrue){
+                    ans+=(lF*rT+lT*rF);
+                    dp[i][j][istrue] = ans;
+                }else{
+                    ans+=(lT*rT+lF*rF);
+                    dp[i][j][istrue] = ans;
+                }
+            }
+            // cout<<ans<<endl;
+        }return dp[i][j][istrue] = ans%1003;
+    }
+
+
+    int countWays(int N, string S){
+        memset(dp,-1,sizeof(dp));
+        return rec(S,0,N-1,true);
+    }
+};
+/****************************************************************************************/
