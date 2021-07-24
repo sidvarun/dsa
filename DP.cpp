@@ -705,7 +705,7 @@ class Solution{
 /*******************************************************************************************/
 // Longest Palindromic Subsequence - https://practice.geeksforgeeks.org/problems/longest-palindromic-subsequence-1612327878/1
 
-int lcs(int x, int y, string s1, string s2){
+    int lcs(int x, int y, string s1, string s2){
             // your code here
             // vector<vector<int>> dp(y, vector<int> (x, -1));
             int dp[x+1][y+1];
@@ -731,3 +731,63 @@ int lcs(int x, int y, string s1, string s2){
         return lcs(n, n, s1, s2);
     }
 /************************************************************************************************/
+// Minimum number of deletions. - https://practice.geeksforgeeks.org/problems/minimum-number-of-deletions4610/1
+
+int lcs(int x, int y, string s1, string s2){
+            // your code here
+            // vector<vector<int>> dp(y, vector<int> (x, -1));
+            int dp[x+1][y+1];
+            for(int i = 0; i<=x; i++)
+                dp[i][0] = 0;
+            for(int j = 0; j<=y; j++)
+                dp[0][j] = 0;
+            for(int i = 1; i<=x; i++){
+                for(int j = 1; j<=y; j++){
+                    if(s1[i-1] == s2[j-1])
+                        dp[i][j] = 1 + dp[i-1][j-1];
+                    else
+                        dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+            return dp[x][y];
+        }
+    int longestPalinSubseq (string s2){
+        // your code here
+        int n = s2.length();
+        string s1 = s2;
+        reverse(s2.begin(), s2.end());
+        return lcs(n, n, s1, s2);
+    }
+    int minDeletions(string str, int n) { 
+        //complete the function here 
+        return n - longestPalinSubseq(str);
+    } 
+/*****************************************************************************************************/
+// Longest Repeating Subsequence - https://practice.geeksforgeeks.org/problems/longest-repeating-subsequence2004/1
+
+class Solution {
+	public:
+		int LongestRepeatingSubsequence(string str){
+		    // Code here
+		    int n = str.length();
+		    string s1 = str;
+		    string s2 = str;
+		    int dp[n+1][n+1];
+            for(int i = 0; i<=n; i++)
+                dp[i][0] = 0;
+            for(int j = 0; j<=n; j++)
+                dp[0][j] = 0;
+            for(int i = 1; i<=n; i++){
+                for(int j = 1; j<=n; j++){
+                    if(s1[i-1] == s2[j-1] && i != j)
+                        dp[i][j] = 1 + dp[i-1][j-1];
+                    else
+                        dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+            return dp[n][n];
+		}
+
+};
+
+/*************************************************************************************************/
