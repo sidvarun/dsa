@@ -456,3 +456,88 @@ public:
     }
 };
 /***************************************************************************************************/
+// Diameter of Binary Tree - https://practice.geeksforgeeks.org/problems/diameter-of-binary-tree/1#
+
+class Solution {
+  public:
+    int solve(Node* root, int &res){
+        if(!root)
+            return 0;
+        int lh = solve(root->left, res);
+        int rh = solve(root->right, res);
+        int temp = 1 + lh + rh;
+        res = max(res, temp);
+        return 1 + max(lh, rh);
+        
+    }
+    // Function to return the diameter of a Binary Tree.
+    int diameter(Node* root) {
+        // Your code here
+        int res = INT_MIN;
+        int t = solve(root, res);
+        return res;
+    }
+};
+/*************************************************************************************************/
+// Maximum path sum from any node - https://practice.geeksforgeeks.org/problems/maximum-path-sum-from-any-node/1#
+
+class Solution {
+  public:
+    //Function to return maximum path sum from any node in a tree.
+    int solve(Node* root, int &res){
+        if(!root)
+            return 0;
+        int lh = solve(root->left, res);
+        int rh = solve(root->right, res);
+        int temp = max(root->data, max(root->data + lh, root->data + rh));
+        int ans = root->data;
+        if(lh>0)
+            ans += lh;
+        if(rh>0)
+            ans += rh;
+        res = max(res, ans);
+        return temp;
+    }
+    int findMaxSum(Node* root){
+        // Your code goes here
+        int res = INT_MIN;
+        int temp = solve(root, res);
+        return res;
+    }
+};
+
+/*****************************************************************************************/
+// Maximum Path Sum between 2 Leaf Nodes - https://practice.geeksforgeeks.org/problems/maximum-path-sum/1#
+
+class Solution {
+public:
+    long long int solve(Node* root, long long int &res){
+            if(!root)
+                return 0;
+            long long int lh = solve(root->left, res);
+            long long int rh = solve(root->right, res);
+            if(!root->left && !root->right)
+                return root->data;
+            if(!root->left)
+                return root->data + rh;
+            if(!root->right)
+                return root->data + lh;
+            
+            long long int temp = 0;
+            temp = root->data + max(lh, rh);
+            long long int ans = INT_MIN;
+            if(root->left && root->right){
+                ans = root->data + lh + rh;
+                res = max(res, ans);
+                return root->data + max(lh, rh);
+            }
+        }
+    int maxPathSum(Node* root){
+        // code here
+        long long int res = INT_MIN;
+        int val = solve(root, res);
+        return ((int)res != INT_MIN) ? res : val;
+
+    }
+};
+/************************************************************************************************************/

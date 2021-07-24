@@ -1144,3 +1144,33 @@ lass Solution{
 // 	    }
 // 	}
 // 	return res;
+/************************************************/
+class Solution {
+  public:
+    int height(Node *root){
+        if (root == NULL)
+            return 0;
+        else
+            return (1 + max(height(root->left), height(root->right)));
+    }
+    int solve(Node* root, int &res){
+        if(!root)
+            return 0;
+        int lh = height(root->left);
+        int rh = height(root->right);
+        int temp = 1 + lh + rh;
+        solve(root->left, res);
+        solve(root->right, res);
+        res = max(res, temp);
+        return res;
+        
+    }
+    // Function to return the diameter of a Binary Tree.
+    int diameter(Node* root) {
+        // Your code here
+        int res = INT_MIN;
+        int t = solve(root, res);
+        return res;
+    }
+};
+/****************************************************/
