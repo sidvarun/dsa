@@ -819,4 +819,92 @@ int wildCard(string pattern,string str){
         }
         return dp[n][m];
     }
-    /*******************************************************************************************/
+/*******************************************************************************************/
+// Form a palindrome - https://practice.geeksforgeeks.org/problems/form-a-palindrome1455/1#
+
+class Solution{
+    public:
+    int lcs(int x, int y, string s1, string s2){
+        int dp[x+1][y+1];
+        for(int i = 0; i<=x; i++)
+            dp[i][0] = 0;
+        for(int j = 0; j<=y; j++)
+            dp[0][j] = 0;
+        for(int i = 1; i<=x; i++){
+            for(int j = 1; j<=y; j++){
+                if(s1[i-1] == s2[j-1])
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                else
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+        return dp[x][y];
+    }
+    int longestPalinSubseq (string s2){
+        // your code here
+        int n = s2.length();
+        string s1 = s2;
+        reverse(s2.begin(), s2.end());
+        return lcs(n, n, s1, s2);
+    }
+    int countMin(string str){
+    //complete the function here
+        int n = str.length();
+        return n - longestPalinSubseq(str);
+    }
+};
+/*****************************************************************************************/
+// Word Break - https://practice.geeksforgeeks.org/problems/word-break1352/1#
+
+class Solution
+{
+public:
+    bool solve(string str, int i, int j, vector<string> v){
+        
+        if(i>j)
+            return true;
+        for(int k = i; k<=j; k++){
+            string s = str.substr(i, k - i + 1);
+            if (std::find(v.begin(), v.end(), s) != v.end()){
+               if(solve(str, k+1, j, v))
+                    return true;
+            }
+        }
+        return false;
+    }
+    int wordBreak(string a, vector<string> &v) {
+        //code here
+        int n = a.length();
+        // vector<vector<int>> dp(n, vector<int> (n, -1));
+        return solve(a, 0, n-1, v);
+    }
+};
+/****************************************************************************************/
+// Subset Sum Problem  - https://practice.geeksforgeeks.org/problems/subset-sum-problem-1611555638/1/
+
+class Solution{   
+public:
+    bool isSubsetSum(int n, int arr[], int sum){
+        // code here 
+      int dp[n+1][sum+1];
+        for(int i = 0; i<=n; i++){
+            for(int j = 0; j<=sum; j++)
+                dp[i][j] = 0;
+        }
+        for(int i = 0; i<=sum; i++)
+            dp[0][i] = 0;
+        for(int i = 0; i<=n; i++)
+            dp[i][0] = 1;
+        for(int i = 1; i<=n; i++){
+            for(int j = 1; j<=sum; j++){
+                if(arr[i-1] <= j)
+                    dp[i][j] = dp[i-1][j - arr[i-1]] || dp[i-1][j];
+                else
+                    dp[i][j] = dp[i - 1][j];
+            }
+        }
+        return dp[n][sum];
+    }
+};
+/*****************************************************************************************/
+
