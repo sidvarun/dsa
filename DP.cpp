@@ -908,3 +908,108 @@ public:
 };
 /*****************************************************************************************/
 
+// Partition Equal Subset Sum - https://practice.geeksforgeeks.org/problems/subset-sum-problem2014/1#
+
+class Solution{
+public:
+    bool isSubsetSum(int n, int arr[], int sum){
+        // code here 
+        int dp[n+1][sum+1];
+        for(int i = 0; i<=n; i++){
+            for(int j = 0; j<=sum; j++)
+                dp[i][j] = 0;
+        }
+        for(int i = 0; i<=sum; i++)
+            dp[0][i] = 0;
+        for(int i = 0; i<=n; i++)
+            dp[i][0] = 1;
+        for(int i = 1; i<=n; i++){
+            for(int j = 1; j<=sum; j++){
+                if(arr[i-1] <= j)
+                    dp[i][j] = dp[i-1][j - arr[i-1]] || dp[i-1][j];
+                else
+                    dp[i][j] = dp[i - 1][j];
+            }
+        }
+        return dp[n][sum];
+    }
+    int equalPartition(int n, int arr[]){
+        // code here
+        int sum = 0;
+        for(int i = 0; i<n; i++)
+            sum += arr[i];
+        if(sum % 2 == 0)
+            return isSubsetSum(n, arr, sum/2);
+        return 0;
+    }
+};
+/****************************************************************************************/
+
+// Perfect Sum Problem  - https://practice.geeksforgeeks.org/problems/perfect-sum-problem5633/1#
+class Solution{
+	public:
+	int perfectSum(int arr[], int n, int sum){
+        // Your code goes here
+        int dp[n+1][sum+1];
+        for(int i = 0; i<=n; i++){
+            for(int j = 0; j<=sum; j++)
+                dp[i][j] = 0;
+        }
+        for(int i = 0; i<=sum; i++)
+            dp[0][i] = 0;
+        for(int i = 0; i<=n; i++)
+            dp[i][0] = 1;
+        for(int i = 1; i<=n; i++){
+            for(int j = 1; j<=sum; j++){
+                if(arr[i-1] <= j)
+                    dp[i][j] = (dp[i-1][j - arr[i-1]] % 1000000007 + dp[i-1][j] % 1000000007) % 1000000007;
+                else
+                    dp[i][j] = dp[i - 1][j];
+            }
+        }
+        return dp[n][sum];
+	}
+	  
+};
+/*********************************************************************************************/
+
+// Minimum sum partition  - https://practice.geeksforgeeks.org/problems/minimum-sum-partition3317/1
+
+class Solution{
+
+  public:
+	int minDifference(int arr[], int n)  { 
+	    // Your code goes here
+	    int sum = 0;
+        for(int i = 0; i<n; i++)
+            sum += arr[i];
+	    int dp[n+1][sum+1];
+        for(int i = 0; i<=n; i++){
+            for(int j = 0; j<=sum; j++)
+                dp[i][j] = 0;
+        }
+        for(int i = 0; i<=sum; i++)
+            dp[0][i] = 0;
+        for(int i = 0; i<=n; i++)
+            dp[i][0] = 1;
+        for(int i = 1; i<=n; i++){
+            for(int j = 1; j<=sum; j++){
+                if(arr[i-1] <= j)
+                    dp[i][j] = dp[i-1][j - arr[i-1]] || dp[i-1][j];
+                else
+                    dp[i][j] = dp[i - 1][j];
+            }
+        }
+        vector<int> v;
+        for(int i = 0; i<=sum/2; i++){
+            if(dp[n][i])
+                v.push_back(i);
+        }
+        int res = INT_MAX;
+        for(int i = 0; i<v.size(); i++)
+            res = min(res, sum - 2*v[i]);
+        return res;
+	} 
+};
+/**************************************************************************************/
+
