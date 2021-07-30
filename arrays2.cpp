@@ -515,3 +515,52 @@ public:
         return res;
     }
 };
+/***************************************************************************************************************/
+// Largest subarray with 0 sum - https://practice.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1
+
+int maxLen(int A[], int n)
+{
+    // Your code here
+    map<int, int> m;
+    int res = 0;
+    m[A[0]] = 0;
+    int pSum = A[0];
+    for(int i = 1; i<n; i++){
+        pSum += A[i];
+        if(pSum == 0)
+            res = max(res, i + 1);
+        if(m.find(pSum) != m.end())
+            res = max(res, i - m[pSum]);
+        else
+            m[pSum] = i;
+    }
+    return res;
+}
+/***************************************************************************************/
+// Largest subarray of 0's and 1's  - https://practice.geeksforgeeks.org/problems/largest-subarray-of-0s-and-1s/1#
+
+class Solution{
+  public:
+        // Your code here
+    int maxLen(int A[], int n){
+        // Your code here
+        for(int i = 0; i<n; i++)
+            if(A[i] == 0)
+                A[i] = -1;
+        map<int, int> m;
+        int res = 0;
+        m[A[0]] = 0;
+        int pSum = A[0];
+        for(int i = 1; i<n; i++){
+            pSum += A[i];
+            if(pSum == 0)
+                res = max(res, i + 1);
+            if(m.find(pSum) != m.end())
+                res = max(res, i - m[pSum]);
+            else
+                m[pSum] = i;
+        }
+        return res;
+    }
+};
+/************************************************************************/
