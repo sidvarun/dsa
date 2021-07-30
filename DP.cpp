@@ -1012,4 +1012,87 @@ class Solution{
 	} 
 };
 /**************************************************************************************/
+// Interleaved Strings  - https://practice.geeksforgeeks.org/problems/interleaved-strings/1#
+
+class Solution{
+  public:
+    /*You are required to complete this method */
+    bool solve(string a, string b, string c, int n, int m, int l){
+        if(l == 0)
+            return true;
+        if(n == 0 && m == 0)
+            return false;
+        bool val1 = false; bool val2 = false;
+        if(n > 0 && c[l - 1] == a[n - 1])
+            val1 = solve(a, b, c, n - 1, m, l - 1);
+        if(m > 0 && c[l - 1] == b[m - 1])
+            val2 = solve(a, b, c, n, m - 1, l - 1);
+        if(val1 || val2)
+            return true;
+        return false;
+    }
+    bool isInterleave(string a, string b, string c) {
+        int l = c.length();
+        int n = a.length();
+        int m = b.length();
+        return solve(a, b, c, n, m, l);
+    }
+
+};
+/*******************************************************************************/
+// Maximum Profit  - https://practice.geeksforgeeks.org/problems/maximum-profit4657/1
+
+class Solution {
+  public:
+    int maxProfit(int k, int n, int A[]) {
+        // code here
+        int dp[k+1][n];
+        for(int i = 0; i<=k; i++)
+            for(int j = 0; j<n; j++)
+                dp[i][j] = 0;
+        for(int i = 1; i<=k; i++){
+            int maxBuy = INT_MIN;
+            for(int j = 1; j<n; j++){
+                maxBuy = max(maxBuy, dp[i-1][j-1] - A[j-1]);
+                dp[i][j] = max(dp[i][j-1], maxBuy + A[j]);
+            }
+        }
+        return dp[k][n-1];
+    }
+};
+/********************************************************************************/
+// Maximum sum Rectangle  - https://practice.geeksforgeeks.org/problems/maximum-sum-rectangle2948/1#
+
+class Solution {
+  public:
+     int kadane(int arr[], int n){
+        int res = arr[0];
+    
+        int maxEnding = arr[0];
+    
+        for (int i = 1; i < n; i++){
+            maxEnding = max(maxEnding + arr[i], arr[i]);
+            res = max(maxEnding, res);
+        }
+        return res;
+    }
+    int maximumSumRectangle(int R, int C, vector<vector<int>> M) {
+        // code here
+        int res = INT_MIN;
+        for(int k = 0; k<R; k++){
+            int arr[C] = {0};
+            for(int i = k; i<R; i++){
+                for(int j = 0; j<C; j++){
+                    arr[j] += M[i][j];
+                }
+                int subres = kadane(arr, C);
+                res = max(res, subres);
+            }
+        }
+        return res;
+    }
+};
+/**********************************************************************************************/
+
+
 

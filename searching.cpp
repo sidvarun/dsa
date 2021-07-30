@@ -299,3 +299,49 @@ class Solution{
     }
 };
 /****************************************************************************/
+// Allocate minimum number of pages  - https://practice.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1#
+
+class Solution 
+{
+    public:
+    bool isValid(int a[], int n, int minPg, int k){
+        int sum = 0;
+        int s = 1;
+        for(int i = 0; i<n; i++){
+            sum += a[i];
+            if(sum > minPg){
+                s++;
+                sum = a[i];
+            }
+        }
+        if(s > k)
+            return false;
+        return true;
+    }
+    //Function to find minimum number of pages.
+    int findPages(int a[], int n, int k) 
+    {
+        //code here
+        int res = INT_MAX;
+        int low = INT_MIN;
+        int sum = 0;
+        for(int i = 0; i<n; i++){
+            sum += a[i];
+            low = max(low, a[i]);
+        }
+        int subres = low;
+        int high = sum;
+        while(low <= high){
+            int minPg = (low + high) / 2;
+            if(isValid(a, n, minPg, k)){
+                res = min(res, minPg);
+                high = minPg - 1;
+            }
+            else{
+                low = minPg + 1;
+            }
+        }
+        return res;
+    }
+};
+/**************************************************************************************************/
