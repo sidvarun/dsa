@@ -1247,6 +1247,30 @@ public:
     }
 };
 /************************************************************************************/
+// Longest Increasing Subsequence  - https://practice.geeksforgeeks.org/problems/longest-increasing-subsequence-1587115620/1#
+// O(n^2)
+class Solution
+{
+    public:
+    //Function to find length of longest increasing subsequence.
+    int longestSubsequence(int n, int a[])
+    {
+       // your code here
+       int dp[n];
+       int res = INT_MIN;
+       for(int i = 0; i<n; i++){
+           int maxm = 0;
+           for(int j = 0; j<i; j++){
+               if(a[j] < a[i])
+                    maxm = max(maxm, dp[j]);
+           }
+           dp[i] = maxm + 1;
+           res = max(res, dp[i]);
+       }
+       return res;
+    }
+};
+// O(nlog(n))
 
 
 
