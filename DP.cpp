@@ -1093,6 +1093,101 @@ class Solution {
     }
 };
 /**********************************************************************************************/
+// Mobile numeric keypad  - https://practice.geeksforgeeks.org/problems/mobile-numeric-keypad5456/1
+
+class Solution{
+
+
+	public:
+	long long dp[10][26];
+
+	long long ref[4][3] = { {1, 2, 3},
+                    		    {4, 5, 6},
+                    		    {7, 8, 9},
+                    		    {-1, 0, -1}
+		                      };
+	long long solve(int i, int j, int n){
+	    if(ref[i][j] == -1)
+	        return 0;
+	    if(n == 1)
+	        return 1;
+	    if(dp[ref[i][j]][n] != -1)
+	        return dp[ref[i][j]][n];
+	    long long a = solve(i, j, n-1);
+	    long long b, c, d, e;
+	    b = 0, c = 0, d = 0, e = 0;
+	    if(j - 1 >= 0 && ref[i][j-1] != -1)
+	        b = solve(i, j - 1, n - 1);
+	    if(j + 1 < 3 && ref[i][j+1] != -1)
+	        c = solve(i, j + 1, n - 1);
+	    if(i - 1 >= 0 && ref[i-1][j] != -1)
+	        d = solve(i - 1, j, n - 1);
+	    if(i + 1 < 4 && ref[i+1][j] != -1)
+	        e = solve(i + 1, j, n - 1);
+	    return dp[ref[i][j]][n] = a + b + c + d + e;
+	}
+	long long getCount(int n)
+	{
+		// Your code goes here
+		
+// 		vector<vector<int>> dp(10, vector<int> (n+1, -1));
+dp[10][N+1];
+memset(dp, -1, sizeof(dp));
+		long long res = 0;
+		for(int i = 0; i<4; i++){
+		    for(int j = 0; j<3; j++){
+		        res += solve(i, j, n, dp);
+		    }
+		}
+        return res;
+	}
+
+
+};
+/********************************************************************************************/
+// Word Wrap - https://practice.geeksforgeeks.org/problems/word-wrap1646/1#
+class Solution {
+public:
+    int solveWordWrap(vector<int>nums, int k) 
+    { 
+        // Code here
+        int n = nums.size();
+        int space[n+1][n+1];
+        int cost[n+1][n+1];
+        for(int i = 1; i<=n; i++){
+            space[i][i] = k - nums[i-1];
+            for(int j = i+1; j<=n; j++){
+                space[i][j] = space[i][j-1] - nums[j-1] - 1;
+            }
+        }
+        for(int i = 1; i<=n; i++){
+            for(int j = 1; j<=n; j++){
+                if(space[i][j] < 0){
+                    space[i][j] = INT_MAX;
+                    cost[i][j] = INT_MAX;
+                }
+                else if(j == n && space[i][j] >= 0){
+                    space[i][j] = 0;
+                    cost[i][j] = 0;
+                }
+                else{
+                    cost[i][j] = space[i][j] * space[i][j];
+                }
+            }
+        }
+        int c[n+1];
+        c[0] = 0;
+        for(int i = 1; i<=n; i++){
+            c[i] = INT_MAX;
+            for(int j = 1; j<=i; j++){
+                if(c[j - 1] != INT_MAX && cost[j][i] != INT_MAX)
+                    c[i] = min(c[i], c[j-1] + cost[j][i]);
+            }
+        }
+        return c[n];
+    } 
+};
+/********************************************************************************************************************/
 
 
 
