@@ -1188,6 +1188,65 @@ public:
     } 
 };
 /********************************************************************************************************************/
+// Optimal Strategy For A Game  - https://practice.geeksforgeeks.org/problems/optimal-strategy-for-a-game-1587115620/1#
+
+long long maximumAmount(int arr[], int n) 
+{
+    long long dp[n][n];
+    for(int i = 0; i<n-1; i++)
+        dp[i][i+1] = max(arr[i], arr[i+1]);
+    for(int gap = 3; gap<n; gap += 2){
+        for(int i = 0; i + gap < n; i++){
+            int j = i + gap;
+            dp[i][j] = max(arr[i] + min(dp[i+2][j], dp[i+1][j-1]), arr[j] + min(dp[i][j-2], dp[i+1][j-1]));
+        }
+    }
+    return dp[0][n-1];
+}
+
+/******************************************************************************************************************/
+// Count Derangements- https://www.geeksforgeeks.org/count-derangements-permutation-such-that-no-element-appears-in-its-original-position/
+// A Naive Recursive C++ program
+// to count derangements
+#include <bits/stdc++.h>
+using namespace std;
+
+int countDer(int n)
+{
+// Base cases
+if (n == 1) return 0;
+if (n == 2) return 1;
+
+// countDer(n) = (n-1)[countDer(n-1) + der(n-2)]
+return (n - 1) * (countDer(n - 1) + countDer(n - 2));
+}
+
+// Driver Code
+int main()
+{
+	int n = 4;
+	cout << "Count of Derangements is "
+		<< countDer(n);
+	return 0;
+}
+
+// DP 
+
+class Solution{
+public:
+    long int disarrange(int n){
+        // code here
+        long long int dp[n+1];
+        dp[0] = 0;
+        dp[1] = 0;
+        dp[2] = 1;
+        for(int i = 3; i<=n; i++)
+            dp[i] = (i - 1) * (dp[i-1]%1000000007 + dp[i-2]%1000000007)%1000000007;
+        return dp[n];
+
+    }
+};
+/************************************************************************************/
 
 
 
