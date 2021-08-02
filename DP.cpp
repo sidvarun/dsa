@@ -1422,3 +1422,48 @@ int LCSof3(string s1, string s2, string s3, int x, int y, int z)
         return dp[x][y][z];
 }
 /******************************************************************************************/
+// Maximum sum increasing subsequence  - https://practice.geeksforgeeks.org/problems/maximum-sum-increasing-subsequence4749/1
+class Solution{
+		
+
+	public:
+	int maxSumIS(int arr[], int n)  
+	{  
+	    // Your code goes here
+	    int res = INT_MIN;
+	    int dp[n] = {0};
+	    for(int i = 0; i<n; i++){
+	        int maxSoFar = 0;
+	        for(int j = 0; j<i; j++){
+	            if(arr[i] > arr[j])
+	                maxSoFar = max(maxSoFar, dp[j]);
+	        }
+	        dp[i] = arr[i] + maxSoFar;
+	        res = max(res, dp[i]);
+	    }
+	    return res;
+	}  
+};
+
+/**********************************************************************************************/
+// Longest subsequence-1  - https://practice.geeksforgeeks.org/problems/longest-subsequence-such-that-difference-between-adjacents-is-one4724/1
+class Solution{
+public:
+    int longestSubsequence(int n, int a[])
+    {
+        // code here
+       int dp[n];
+       int res = INT_MIN;
+       for(int i = 0; i<n; i++){
+           int maxm = 0;
+           for(int j = 0; j<i; j++){
+               if(abs(a[j] - a[i]) == 1)
+                    maxm = max(maxm, dp[j]);
+           }
+           dp[i] = maxm + 1;
+           res = max(res, dp[i]);
+       }
+       return res;
+    }
+};
+/**********************************************************************************************/
