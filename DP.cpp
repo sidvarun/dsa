@@ -1271,6 +1271,83 @@ class Solution
     }
 };
 // O(nlog(n))
+class Solution
+{
+    public:
+    //Function to find length of longest increasing subsequence.
+    int longestSubsequence(int n, int a[]){
+        vector<int> dp(n + 1, INT_MAX);
+        dp[0] = INT_MIN;
+        
+        for (int i = 0; i < n; ++i) {
+            int idx = lower_bound(dp.begin(), dp.end(), a[i]) - dp.begin();
+            dp[idx] = min(dp[idx], a[i]);
+        }
+        
+        int ans = 0;
+        
+        for (int i = n; i >= 0; --i) {
+            if (dp[i] != INT_MAX) {
+                ans = i;
+                break;
+            }
+        }
+        
+        return ans;
+    }
+};
+/*************************************************************************************************/
+// Longest alternating subsequence  - https://practice.geeksforgeeks.org/problems/longest-alternating-subsequence5951/1
 
+class Solution {
+	public:
+		int AlternatingaMaxLength(vector<int>&a){
+		    // Code here
+		    int n = a.size();
+		    int inc = 1;
+		    int dec = 1;
+		    for(int i = 1; i<n; i++){
+		        if(a[i] > a[i-1])
+		            inc = dec+1;
+		        else if(a[i] < a[i-1])
+		            dec = inc + 1;
+		    }
+		    return max(inc, dec);
+		}
+
+};
+/***************************************************************************************************/
+// Count Palindromic Subsequences - https://practice.geeksforgeeks.org/problems/count-palindromic-subsequences/1#
+
+class Solution{
+    public:
+        long long int dp[1001][1001];
+        int mod = 1e9+7;
+    long long int solve(string &x,int i,int j){
+        if(i>j) 
+            return 0;
+        if(i==j) return 
+            1;
+        if(dp[i][j]!=-1) 
+            return dp[i][j];
+    
+        if(x[i]==x[j]){
+            dp[i][j] = (1%mod+solve(x,i+1,j)%mod+solve(x,i,j-1)%mod)%mod;
+            return dp[i][j]%mod;
+        }
+        // (a-b)%mod = (a%mod-b%mod+mod)%mod; -> to avoid modulus of negative //values
+        else{
+            dp[i][j]=(solve(x,i+1,j)%mod+solve(x,i,j-1)%mod-solve(x,i+1,j-1)%mod+mod)%mod;
+            return dp[i][j]%mod;
+        }
+    }
+    long long int countPS(string str){
+    //Your code here
+        memset(dp,-1,sizeof(dp));
+    
+        return solve(str,0,str.size()-1);
+    }
+};
+/**********************************************************************************************************/
 
 
