@@ -1371,4 +1371,54 @@ long long int count(long long int n)
     return dp[3][n];
 }
 /****************************************************************************/
+// Gold Mine Problem - https://practice.geeksforgeeks.org/problems/gold-mine-problem2608/1#
 
+class Solution{
+public:
+    int maxGold(int n, int m, vector<vector<int>> M)
+    {
+        // code here
+        int dp[n+1][m+1];
+        memset(dp, 0, sizeof(dp));
+        for(int j = m-1; j>=0; j--){
+            for(int i = 0; i<n; i++){
+                if(j == m-1)
+                    dp[i][j] = M[i][j];
+                else if(i == 0)
+                    dp[i][j] = M[i][j] + max(dp[i][j+1], dp[i+1][j+1]);
+                else if(i == n-1)
+                    dp[i][j] = M[i][j] + max(dp[i-1][j+1], dp[i][j+1]);
+                else
+                    dp[i][j] = M[i][j] + max(dp[i-1][j+1], max(dp[i][j+1], dp[i+1][j+1]));
+            }
+        }
+        int res = INT_MIN;
+        for(int i = 0; i<n; i++)
+            res = max(res, dp[i][0]);
+        return res;
+    }
+};
+/*************************************************************************************/
+// LCS of three strings  - https://practice.geeksforgeeks.org/problems/lcs-of-three-strings0028/1
+
+int LCSof3(string s1, string s2, string s3, int x, int y, int z)
+{
+    // your code here
+        int dp[x+1][y+1][z+1];
+        for(int i = 0; i<=x; i++){
+            for(int j = 0; j<=y; j++){
+                for(int k = 0; k<=z; k++){
+                    if(i == 0 || j == 0 || k == 0)
+                        dp[i][j][k] = 0;
+                    else{
+                        if(s1[i-1] == s2[j-1] && s2[j-1] == s3[k-1])
+                            dp[i][j][k] = 1 + dp[i-1][j-1][k-1];
+                        else
+                            dp[i][j][k] = max(dp[i-1][j][k], max(dp[i][j-1][k], dp[i][j][k-1]));
+                    }
+                }
+            }
+        }
+        return dp[x][y][z];
+}
+/******************************************************************************************/
