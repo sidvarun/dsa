@@ -209,4 +209,113 @@ class LRUCache
     }
 };
 /**************************************************************************/
+// Merge two sorted linked lists  - https://practice.geeksforgeeks.org/problems/merge-two-sorted-linked-lists/1
+Node* sortedMerge(Node* head1, Node* head2)  
+{  
+    // code here
+    if(!head1){
+        head1 = head2;
+        return head1;
+    }
+    if(!head2)
+        return head1;
+    Node* head;
+    Node* tail;
+    Node* a = head1;
+    Node* b = head2;
+    if(head1->data <= head2->data){
+        head = head1;
+        tail = head1;
+        a = a->next;
+    }
+    else{
+        head = head2;
+        tail = head2;
+        b = b->next;
+    }
+    while(a && b){
+        if(b->data < a->data){
+            tail->next = b;
+            tail = b;
+            b = b->next;
+        }
+        else{
+            tail->next = a;
+            tail = a;
+            a = a->next;
+        }
+        
+    }
+    if(a == NULL)
+        tail->next = b;
+    else
+        tail->next = a;
+    return head;
+}  
+/*********************************************************************************/
+// Pairwise swap elements of a linked list  - https://practice.geeksforgeeks.org/problems/pairwise-swap-elements-of-a-linked-list-by-swapping-data/1#
+class Solution
+{
+    public:
+    Node* pairWiseSwap(struct Node* head) 
+    {
+        if(head==NULL||head->next==NULL)
+            return head;
+        Node *curr=head->next->next;
+        Node *prev=head;
+        head=head->next;
+        head->next=prev;
+        while(curr!=NULL&&curr->next!=NULL){
+            prev->next=curr->next;
+            prev=curr;
+            Node *next=curr->next->next;
+            curr->next->next=curr;
+            curr=next;
+        }
+        prev->next=curr;
+        return head;
+    }
+};
+/********************************************************************************/
+// Intersection Point in Y Shapped Linked Lists  - https://practice.geeksforgeeks.org/problems/intersection-point-in-y-shapped-linked-lists/1
+
+int intersectPoint(Node* head1, Node* head2){
+    // Your Code Here
+    int c1 = 0;
+    int c2 = 0;
+    Node* curr1 = head1;
+    Node* curr2 = head2;
+    while(curr1){
+        c1++;
+        curr1 = curr1->next;
+    }
+    while(curr2){
+        c2++;
+        curr2 = curr2->next;
+    }
+    int d = abs(c1 - c2);
+    curr1 = head1;
+    curr2 = head2;
+    if(c1>c2){
+        while(d>0 && curr1){
+            curr1 = curr1->next;
+            d--;
+        }
+    }
+    else{
+        while(d>0 && curr2){
+            curr2 = curr2->next;
+            d--;
+        }
+    }
+    while(curr1->next && curr2->next){
+        if(curr1->next == curr2->next)
+            return curr1->next->data;
+        curr1 = curr1->next;
+        curr2 = curr2->next;
+    }
+    return -1;
+}
+/*********************************************************************************/
+
 
