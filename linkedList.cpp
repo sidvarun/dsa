@@ -113,4 +113,100 @@ class Solution{
         return true;
     }
 };
+/****************************************************************/
+// Clone a linked list with next and random pointer - https://practice.geeksforgeeks.org/problems/clone-a-linked-list-with-next-and-random-pointer/1#
+class Solution
+{
+    public:
+    Node *copyList(Node *head){
+        //Write your code here
+        if(!head)
+            return NULL;
+        Node* curr = head;
+        while(curr){
+            Node* temp = new Node(curr->data);
+            temp->next = curr->next;
+            curr->next = temp;
+            curr = curr->next->next;
+        }
+        Node* c = head;
+        while(c){
+            if(c->arb)
+                c->next->arb = c->arb->next;
+            else 
+                c->next->arb =NULL;
+            c = c->next->next;
+        }
+        Node* original = head, *copy = head->next; 
+  
+        Node* temp = copy; 
+      
+        while (original && copy) { 
+            original->next = original->next? original->next->next : original->next; 
+      
+            copy->next = copy->next?copy->next->next:copy->next; 
+            original = original->next; 
+            copy = copy->next; 
+        } 
+        return temp;   
+    }
+
+};
+
+/*******************************************************************************************************/
+
+// LRU Cache - https://practice.geeksforgeeks.org/problems/lru-cache/1#
+class LRUCache
+{
+    public:
+    list<pair<int,int>> dq;
+    unordered_map<int, list<pair<int,int>> :: iterator> ma; 
+    int maxSize;
+    LRUCache(int N){
+        maxSize = N;
+        dq.clear();
+        ma.clear();
+    }
+    void set(int x, int y) 
+    {
+        if(ma.find(x) == ma.end())
+        {
+           if(dq.size() == maxSize)
+           {
+               int Lx = dq.back().first;
+               int Ly = dq.back().second;
+               dq.pop_back();
+               dq.push_front({x,y});
+               ma.erase(Lx);
+               ma[x] =dq.begin();
+           }
+           else{
+               dq.push_front({x,y});
+          
+                ma[x] = dq.begin();
+           }
+        }
+        else{
+            auto it = ma.find(x);
+            dq.erase(it->second);
+            dq.push_front({x,y});
+       
+            ma[x]=dq.begin();
+        }
+    }
+    int get(int x)
+    {
+        if(ma.find(x) == ma.end())
+        {
+            return -1;
+        }
+        auto it = ma.find(x);
+        int d  = (*(it->second)).second;
+        dq.erase(it->second);
+        dq.push_front({x,d});
+        ma[x] = dq.begin();
+        return d;
+    }
+};
+/**************************************************************************/
 
