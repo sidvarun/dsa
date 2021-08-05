@@ -355,10 +355,9 @@ Node* divide(int N, Node *head){
         }
         if(!head1 || !head2)
             return head;
-        if(tail1){
-            tail1->next = head2;
-            tail2->next = NULL;
-            return head1;
+        tail1->next = head2;
+        tail2->next = NULL;
+        return head1;
         }
        
         
