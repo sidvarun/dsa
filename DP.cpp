@@ -1467,3 +1467,122 @@ public:
     }
 };
 /**********************************************************************************************/
+// Max length chain  - https://practice.geeksforgeeks.org/problems/max-length-chain/1#
+/*
+    Sort the given range according the first value.
+
+    Fill the dp array accordingly
+    for(int i=1;i<n;i++)
+            for(int j=0;j<i;j++)
+                if(p[i].first>p[j].second and dp[i]<dp[j]+1)
+                    dp[i]=dp[j]+1;
+        
+*/
+static bool compare(struct val a, struct val b){
+    return a.second<b.second;
+}
+int maxChainLen(struct val p[],int n){
+//Your code here
+    sort(p, p+n, compare);
+    int dp[n] = {0};
+    int res = INT_MIN;
+    for(int i = 0; i<n; i++){
+        int maxSoFar = 0;
+        for(int j = 0; j<i; j++){
+            if(p[j].second < p[i].first)
+                maxSoFar = max(maxSoFar, dp[j]);
+        }
+        dp[i] = maxSoFar + 1;
+        res = max(res, dp[i]);
+    }
+    return res;
+}
+/**************************************************************************************/
+// Pairs with specific difference  - https://practice.geeksforgeeks.org/problems/pairs-with-specific-difference1533/1#
+/*
+First we sort the given array in increasing order. Once array is sorted, we traverse the array. For every element, we try to pair it with its previous element first. Why do we prefer previous element? Let arr[i] can be paired with arr[i-1] and arr[i-2] (i.e. arr[i] – arr[i-1] < K and arr[i]-arr[i-2] < K). Since the array is sorted, value of arr[i-1] would be more than arr[i-2]. Also, we need to pair with difference less than k, it means if arr[i-2] can be paired, then arr[i-1] can also be paired in a sorted array.
+Now observing the above facts, we can formulate our dynamic programming solution as below,
+Let dp[i] denotes the maximum disjoint pair sum we can achieve using first i elements of the array. Assume currently we are at i’th position, then there are two possibilities for us.
+
+  Pair up i with (i-1)th element, i.e. 
+      dp[i] = dp[i-2] + arr[i] + arr[i-1]
+  Don't pair up, i.e. 
+      dp[i] = dp[i-1] 
+Above iteration takes O(N) time and sorting of array will take O(N log N) time so total time complexity of the solution will be O(N log N)
+*/
+class Solution{
+    public:
+    int maxSumPairWithDifferenceLessThanK(int arr[], int n, int k)
+    {
+        // Your code goes here   
+        sort(arr, arr+n);
+        int dp[n+1] = {0};
+        for(int i = 2; i<=n; i++){
+            if(arr[i-1] - arr[i-2] < k)
+                dp[i] = dp[i-2] + arr[i-1] + arr[i-2];
+            else
+                dp[i] = dp[i-1];
+        }
+        return dp[n];        
+    }
+};
+/************************************************************************************/
+// Maximum path sum in matrix  - https://practice.geeksforgeeks.org/problems/path-in-matrix3805/1
+
+class Solution{
+public:
+    int maximumPath(int n, vector<vector<int>> m){
+        // code here
+        if(n == 1)
+            return m[0][0];
+        int dp[n][n];
+        for(int j = 0; j<n; j++)
+            dp[n-1][j] = m[n-1][j];
+        int res = INT_MIN;
+        for(int i = n-2; i>=0; i--){
+            for(int j = 0; j<n; j++){
+                if(j == 0){
+                    dp[i][j] = m[i][j] + max(dp[i+1][j], dp[i+1][j+1]);
+                }
+                else if(j == n-1)
+                    dp[i][j] = m[i][j] + max(dp[i+1][j-1], dp[i+1][j]);
+                else
+                    dp[i][j] = m[i][j] + max(dp[i+1][j-1], max(dp[i+1][j],dp[i+1][j+1]));
+                if(i == 0)
+                    res = max(res, dp[i][j]);
+            }
+        }
+        return res;
+    }
+};
+/*******************************************************************************/
+// Maximum difference of zeros and ones in binary string - https://practice.geeksforgeeks.org/problems/maximum-difference-of-zeros-and-ones-in-binary-string4111/1
+/*
+1. Assume o as 1 and 1 as -1, then apply Kadane’s algorithm
+or 
+Use DP
+2. dp[i] stores the maxm diff if the string ends at element s[i]
+*/
+class Solution{
+public:	
+	int maxSubstring(string s)
+	{
+	    // Your code goes here
+	    int n = s.length();
+	    int dp[n];
+	    int res = INT_MIN;
+	    if(s[0] == '1')
+            dp[0] = -1;
+        else
+            dp[0] = 1;
+        res = dp[0];
+	    for(int i = 1; i<n; i++){
+	        if(s[i] == '0')
+	            dp[i] = max(1+dp[i-1], 1);
+	        else
+	            dp[i] = max(dp[i-1] - 1, -1);
+	        res = max(res, dp[i]);
+	    }
+	    return res;
+	}
+};

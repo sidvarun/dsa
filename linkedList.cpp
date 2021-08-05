@@ -319,3 +319,47 @@ int intersectPoint(Node* head1, Node* head2){
 /*********************************************************************************/
 
 
+Node* divide(int N, Node *head){
+        // code here
+        Node* head1;
+        Node* tail1;
+        Node* head2;
+        Node* tail2;
+        Node* curr = head;
+        bool val1 = false;
+        bool val2 = false;
+        while(curr){
+            if(curr->data%2 == 0){
+                if(!val1){
+                    val1 = true;
+                    head1 = curr;
+                    tail1 = curr;
+                }
+                else{
+                    tail1->next = curr;
+                    tail1 = curr;
+                }
+            }
+            else{
+                if(!val2){
+                    val2 = true;
+                    head2 = curr;
+                    tail2 = curr;
+                }
+                else{
+                    tail2->next = curr;
+                    tail2 = curr;
+                }
+            }
+            curr=curr->next;
+        }
+        if(!head1 || !head2)
+            return head;
+        if(tail1){
+            tail1->next = head2;
+            tail2->next = NULL;
+            return head1;
+        }
+       
+        
+    }
