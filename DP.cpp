@@ -1586,3 +1586,26 @@ public:
 	    return res;
 	}
 };
+/*************************************************************************************************/
+// Largest square formed in a matrix  - https://practice.geeksforgeeks.org/problems/largest-square-formed-in-a-matrix0806/1
+class Solution{
+public:
+    int maxSquare(int n, int m, vector<vector<int>> M){
+        // code here
+        int dp[n][m];
+        int res = 0;
+        for(int i = 0; i<n; i++){
+            for(int j = 0; j<m; j++){
+                if(i == 0 || j == 0)
+                    dp[i][j] = max(0, M[i][j]);
+                else if(M[i][j] == 1)
+                    dp[i][j] = 1 + min(dp[i-1][j-1], min(dp[i-1][j], dp[i][j-1]));
+                else if(M[i][j] == 0)
+                    dp[i][j] = 0;
+                res = max(res, dp[i][j]);
+            }
+        }
+        return res;
+    }
+};
+/********************************************************************************************************/
