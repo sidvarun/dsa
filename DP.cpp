@@ -1609,3 +1609,66 @@ public:
     }
 };
 /********************************************************************************************************/
+// Minimum cost to fill given weight in a bag - https://practice.geeksforgeeks.org/problems/minimum-cost-to-fill-given-weight-in-a-bag1956/1#
+
+int minimumCost(int costs[], int n, int W) { 
+        // Your code goes here
+        vector<int>wt;
+        vector<int>cost;
+        for (int i = 0; i < n; i++) {
+            if (costs[i] != -1) {
+                cost.push_back(costs[i]);
+                wt.push_back(i + 1);
+            }
+        }
+        int N = cost.size();
+        long long int dp[N + 1][W + 1];
+        for (int i = 1; i <= N; i++)
+        dp[i][0] = 0;
+        for (int j = 0; j <= W; j++)
+        dp[0][j] = INT_MAX;
+        
+        for (int i = 1; i <= N; i++){
+            for (int j = 1; j <= W; j++) {
+                if(wt[i - 1] <= j )
+                    dp[i][j] = min(dp[i - 1][j], cost[i - 1] + dp[i][j - wt[i - 1]]);
+                else if(wt[i - 1] > j)
+                    dp[i][j] = dp[i - 1][j];
+            }
+        }
+        if (dp[N][W] == INT_MAX)
+        return -1;
+        return dp[N][W];
+            
+} 
+/***************************************************************************/
+// BBT counter - https://practice.geeksforgeeks.org/problems/bbt-counter4914/1#
+/*
+    Since the difference between the heights of left and right subtree is not more than one, possible heights of left and right part can be one of the following:
+
+    (h-1), (h-2)
+    (h-2), (h-1)
+    (h-1), (h-1)
+*/
+class Solution {
+  public:
+    long long int countBT(int h)
+    {
+        if(h == 0 or h == 1){
+            return 1;
+        }
+        
+        long long int MOD = 1000000007;
+        
+        long long int dp[h + 1];
+        dp[0] = dp[1] = 1;
+        
+        for(int i = 2; i <= h; i++){
+            dp[i] = (dp[i - 1] * ((2 * dp[i - 2]) % MOD + dp[i - 1])) % MOD;
+        }
+        
+        return dp[h];
+    }
+};
+
+/**********************************************************************/
