@@ -293,7 +293,8 @@ class Solution{
             }
             else{
                 arr[k++] = right[j];
-                res += n1 - i;
+                if(left[i] > 2*right[j])
+                    res += n1 - i;
                 j++;
             }
         }
