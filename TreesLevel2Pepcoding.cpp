@@ -29,3 +29,46 @@ public:
         return cameras;
     }
 };
+/****************************************************************************************/
+// 1372. Longest ZigZag Path in a Binary Tree - https://leetcode.com/problems/longest-zigzag-path-in-a-binary-tree/
+class Solution {
+public:
+    pair<int, pair<int, int>> solve(TreeNode* root){
+        pair<int, pair<int, int>> rootPair = {0, {-1, -1}};
+        if(root == NULL)
+            return rootPair;
+        pair<int, pair<int, int>> lchild = solve(root->left);
+        pair<int, pair<int, int>> rchild = solve(root->right);
+        rootPair.first = max(max(lchild.first, rchild.first), 1 + max(lchild.second.second,  rchild.second.first));
+        rootPair.second.first = lchild.second.second + 1;
+        rootPair.second.second = rchild.second.first + 1;
+
+        return rootPair;
+        
+    }
+    int longestZigZag(TreeNode* root) {
+        pair<int, pair<int, int>> res = solve(root);
+        return res.first;
+    }
+};
+/******************************************************************************************/
+// 337. House Robber III - https://leetcode.com/problems/house-robber-iii/
+// Solution Explanation - https://leetcode.com/problems/house-robber-iii/discuss/79330/Step-by-step-tackling-of-the-problem
+class Solution {
+public:
+    pair<int, int> solve(TreeNode* root){
+        pair<int, int> subres = {0,0};
+        if(root == NULL)
+            return subres;
+        pair<int, int> lchild = solve(root->left);
+        pair<int, int> rchild = solve(root->right);
+        subres.first = root->val + lchild.second + rchild.second;
+        subres.second = max(lchild.first, lchild.second) + max(rchild.first, rchild.second);
+        return subres;
+    }
+    int rob(TreeNode* root) {
+        pair<int, int> res = solve(root);
+        return max(res.first, res.second);
+    }
+};
+/*********************************************************************************************/
