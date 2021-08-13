@@ -72,3 +72,20 @@ public:
     }
 };
 /*********************************************************************************************/
+// 98. Validate Binary Search Tree - https://leetcode.com/problems/validate-binary-search-tree/
+class Solution {
+public:
+    bool solve(TreeNode* root, int* l, int* h){
+        if(root == NULL)
+            return true;
+        bool lchild = solve(root->left, l, &root->val);
+        bool rchild = solve(root->right, &root->val, h);
+        if((l && root->val <= *l) || (h && root->val >= *h))
+            return false;
+        return lchild && rchild;
+    }
+    bool isValidBST(TreeNode* root) {
+        return solve(root, NULL, NULL);
+    }
+};
+/******************************************************************************************/
