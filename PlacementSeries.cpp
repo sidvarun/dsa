@@ -311,3 +311,246 @@ public:
     }
 };
 /*************************************************************************/
+// Maximum Intervals Overlap - https://practice.geeksforgeeks.org/problems/maximum-intervals-overlap5708/1#
+
+class Solution{
+	
+	public:
+	vector<int> findMaxGuests(int en[], int ex[], int n){
+	   // Your code goes here
+	   vector<int> v;
+	   sort(en, en + n);
+	   sort(ex, ex + n);
+	   int timer = en[0];
+	   int res = 1;
+	   int count = 1;
+	   int i = 1;
+	   int j = 0;
+	   while(i<n){
+	       if(en[i]<=ex[j]){
+	           count++; 
+	           if(count>res){
+    	           res = count;
+    	           timer = en[i];
+	           }
+	           i++;
+	       }
+	       else{
+	           count--;
+	           j++;
+	       }
+	   }
+	   v.push_back(res);
+	   v.push_back(timer);
+       return v;
+	   
+	}
+
+};
+// GFG Editorial Solution
+class Solution{
+	
+	public:
+	vector<int> findMaxGuests(int Entry[], int Exit[], int N)
+	{
+	   // Sort arrival and exit arrays
+	   sort(Entry, Entry+N);
+	   sort(Exit, Exit+N);
+	 
+	   // guests_in indicates number of guests at a time
+	   int guests_in = 1, max_guests = 1, time1 = Entry[0];
+	   int i = 1, j = 0;
+	 
+	   // Similar to merge in merge sort to process
+	   // all events in sorted order
+	   while (i < N && j < N)
+	   {
+	      // If next event in sorted order is arrival,
+	      // increment count of guests
+	      if (Entry[i] <= Exit[j])
+	      {
+	          guests_in++;
+	 
+	          // Update max_guests if needed
+	          if (guests_in > max_guests)
+	          {
+	              max_guests = guests_in;
+	              time1 = Entry[i];
+	          }
+	          i++;  //increment index of arrival array
+	      }
+	      else // If event is exit, decrement count
+	      {    // of guests.
+	          guests_in--;
+	          j++;
+	      }
+	   }
+	    vector<int> res;
+	    res.push_back(max_guests);
+	    res.push_back(time1);
+	    
+	    return res;
+	}
+
+};
+/********************************************************************************/
+// 73. Set Matrix Zeroes - https://leetcode.com/problems/set-matrix-zeroes/
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& mat) {
+        int m = mat.size();
+        int n = mat[0].size();
+        bool col = true;
+        for(int i = 0; i<m; i++)
+            if(mat[i][0] == 0)
+                col = false;
+        for(int i = 0; i<m; i++){
+            for(int j = 1; j<n; j++){
+                if(mat[i][j] == 0){
+                    mat[0][j] = 0;
+                    mat[i][0] = 0;
+                }
+            }
+        }
+        for(int i = m-1; i>=0; i--){
+            for(int j = n-1; j>0; j--){
+                if(mat[i][0] == 0 || mat[0][j] == 0)
+                    mat[i][j] = 0;
+            }
+            if(!col)
+                mat[i][0] = 0;
+        }
+    }
+};
+/**********************************************************************************/
+
+// Make Zeros - https://practice.geeksforgeeks.org/problems/make-zeroes4042/1
+class Solution {
+public:
+    void MakeZeros(vector<vector<int> >& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        vector<int>a, b;
+        vector<vector<int>>res(n, vector<int>(m,0));
+        for(int i = 0; i < n; i++){
+        	for(int j = 0; j < m; j++){
+        		if(!matrix[i][j]){
+        			a.push_back(i);
+        			b.push_back(j);
+        		}
+        		res[i][j] = matrix[i][j];
+        	}
+        }
+        for(int x = 0; x < a.size(); x++){
+        	int i = a[x];
+        	int j = b[x];
+        	int cnt = 0;
+        	if(i-1 >= 0)
+        		cnt += matrix[i-1][j], res[i-1][j] = 0;
+        	if(i+1 < n)
+        		cnt += matrix[i+1][j], res[i+1][j] = 0;
+        	if(j-1 >= 0)
+        		cnt += matrix[i][j-1], res[i][j-1] = 0;
+        	if(j+1 < m)
+        		cnt += matrix[i][j+1], res[i][j+1] = 0;
+        	res[i][j] = cnt;
+        }
+        for(int i = 0; i < n; i++)
+        	for(int j = 0; j < m; j++)
+        		matrix[i][j] = res[i][j];
+    }
+};
+/**************************************************************************/
+// Pascal Triangle  - https://practice.geeksforgeeks.org/problems/pascal-triangle0652/1#
+
+class Solution{
+    const long long mod = 1000000007;
+    public:
+        vector<ll> nthRowOfPascalTriangle(int n) {
+            vector<vector<ll>> arr(n , vector<ll>(n , 0));
+            arr[0][0] = 1;
+            if(n==1) 
+                return arr[0];
+            arr[1][0] = arr[1][1] = 1;
+            if(n==2) 
+                return arr[1];
+            for(int i=2 ; i < n ; i++){
+                arr[i][0] = 1;
+                for(int j = 1 ; j<=i ; j++){
+                    arr[i][j] = ((arr[i-1][j] % mod) +
+                    (arr[i-1][j-1] % mod)) % mod;
+                }
+            }
+            return arr[n-1];
+        }
+};
+
+/****************************************************************************/
+// Count the number of subarrays having a given XOR - https://www.geeksforgeeks.org/count-number-subarrays-given-xor/
+
+long long subarrayXor(int arr[], int n, int m)
+{
+    long long ans = 0; // Initialize answer to be returned
+ 
+    // Create a prefix xor-sum array such that
+    // xorArr[i] has value equal to XOR
+    // of all elements in arr[0 ..... i]
+    int* xorArr = new int[n];
+ 
+    // Create map that stores number of prefix array
+    // elements corresponding to a XOR value
+    unordered_map<int, int> mp;
+ 
+    // Initialize first element of prefix array
+    xorArr[0] = arr[0];
+ 
+    // Computing the prefix array.
+    for (int i = 1; i < n; i++)
+        xorArr[i] = xorArr[i - 1] ^ arr[i];
+ 
+    // Calculate the answer
+    for (int i = 0; i < n; i++) {
+       
+        // Find XOR of current prefix with m.
+        int tmp = m ^ xorArr[i];
+ 
+        // If above XOR exists in map, then there
+        // is another previous prefix with same
+        // XOR, i.e., there is a subarray ending
+        // at i with XOR equal to m.
+        ans = ans + ((long long)mp[tmp]);
+ 
+        // If this subarray has XOR equal to m itself.
+        if (xorArr[i] == m)
+            ans++;
+ 
+        // Add the XOR of this subarray to the map
+        mp[xorArr[i]]++;
+    }
+ 
+    // Return total count of subarrays having XOR of
+    // elements as given value m
+    return ans;
+}
+/************************************************************************************************/
+// Length of the longest substring  - https://practice.geeksforgeeks.org/problems/length-of-the-longest-substring3036/1
+class Solution{
+    public:
+    int longestUniqueSubsttr(string s){
+        //code
+        int n = s.length();
+        vector<int>m(256, -1);
+        int l = 0; 
+        int r = 0;
+        int res = INT_MIN;
+        while(r<n){
+            if(m[s[r]] != -1)
+                l = max(m[s[r]] + 1, l);
+            m[s[r]] = r;
+            res = max(res, r - l + 1);
+            r++;
+        }
+        return res;
+    }
+};
+/*************************************************************************************************/
