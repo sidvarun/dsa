@@ -126,4 +126,37 @@ int getLength(Node* root)
     // 1 is added to include root in the width
     return (abs(minimum) + maximum) + 1;
 }
-/********************************************************************************/
+/**********************************************************************/
+// Vertical Traversal of Binary Tree - https://practice.geeksforgeeks.org/problems/print-a-binary-tree-in-vertical-order/1
+
+class Solution
+{
+    public:
+    //Function to find the vertical order traversal of Binary Tree.
+    vector<int> verticalOrder(Node *root)
+    {
+        //Your code herevector<vector<int>> res;
+        map<int, vector<int>> m;
+        queue<pair<Node*, int>> q;
+        q.push({root, 0});
+        while(!q.empty()){
+            pair<Node*, int> p = q.front();
+            q.pop();
+            Node* curr = p.first;
+            int level = p.second;
+            // res[level].push_back(curr->val);
+            m[level].push_back(curr->data);
+            if(curr->left)
+                q.push({curr->left, level - 1});
+            if(curr->right)
+                q.push({curr->right, level + 1});
+        }
+        vector<int> temp;
+        for (auto itr = m.begin(); itr != m.end(); ++itr) {
+            for(auto i : itr->second)
+                temp.push_back(i);
+        }
+        return temp;
+    }
+};
+/********************************************************************/
