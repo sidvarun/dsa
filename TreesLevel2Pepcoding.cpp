@@ -89,3 +89,41 @@ public:
     }
 };
 /******************************************************************************************/
+// Vertical width of Binary tree | Set 1 (Width of the shadow of a binary tree) - https://www.geeksforgeeks.org/width-binary-tree-set-1/
+
+void lengthUtil(Node* root, int &maximum,
+                int &minimum, int curr=0)
+{
+    if (root == NULL)
+        return;
+  
+    // traverse left
+    lengthUtil(root->left, maximum,
+               minimum, curr - 1);
+  
+    // if curr is decrease then get
+    // value in minimum
+    if (minimum > curr)
+        minimum = curr;
+  
+    // if curr is increase then get
+    // value in maximum
+    if (maximum < curr)
+        maximum = curr;
+  
+  
+    // traverse right
+    lengthUtil(root->right, maximum,
+               minimum,  curr + 1);
+  
+}
+  
+int getLength(Node* root)
+{
+    int maximum = 0, minimum = 0;
+    lengthUtil(root, maximum, minimum, 0);
+  
+    // 1 is added to include root in the width
+    return (abs(minimum) + maximum) + 1;
+}
+/********************************************************************************/
