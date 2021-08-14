@@ -370,3 +370,51 @@ vector <int> diagonalSum(Node* root) {
    return res;
 }
 /**********************************************************************************/
+
+// Nodes at given distance in binary tree  - https://practice.geeksforgeeks.org/problems/nodes-at-given-distance-in-binary-tree/1#
+/*
+    Traverse the tree and search for the target node. If found, keep returning the distance from it to ancestral nodes.
+    If target is found at distance d in left subtree, then select all nodes at distance k-d in right tree sub tree and vice versa.
+*/
+class Solution
+{
+private:
+
+public:
+    void kDown(Node* root, int k, Node* blockNode, vector<int> &res){
+        if(root == NULL || root == blockNode || k<0)
+            return;
+        if(k == 0){
+            res.push_back(root->data);
+            return;
+        }
+        kDown(root->left, k-1, blockNode, res);
+        kDown(root->right, k-1, blockNode, res);
+    }
+    int kDistance(Node* root, int k, int target, vector<int> &res){
+        if(root == NULL)
+            return -1;
+        if(root->data == target){
+            kDown(root, k, NULL, res);
+            return 1;
+        }
+        int ld = kDistance(root->left, k, target, res);
+        if(ld != -1){
+            kDown(root, k-ld, root->left, res);
+            return ld+1;
+        }
+        int rd = kDistance(root->right, k, target, res);
+        if(rd != -1){
+            kDown(root, k-rd, root->right, res);
+            return rd+1;
+        }
+        return -1;
+    }
+    vector <int> KDistanceNodes(Node* root, int target , int k){
+        vector<int> res;
+        int temp = kDistance(root, k, target, res);
+        sort(res.begin(), res.end());
+        return res;
+    }
+};
+/**********************************************************************************************************/
