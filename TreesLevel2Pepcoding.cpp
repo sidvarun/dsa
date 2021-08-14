@@ -345,3 +345,28 @@ class Solution
 
 };
 /****************************************************************************/
+// Diagonal Sum In Binary Tree - https://practice.geeksforgeeks.org/problems/diagonal-sum-in-binary-tree/1#
+
+vector <int> diagonalSum(Node* root) {
+    // Add your code here
+   vector<int> res;
+   queue<Node* >q;
+   q.push(root);
+   while(!q.empty()){
+        int subres = 0;
+        int c = q.size();
+        while(c--){
+            Node* curr = q.front();
+            q.pop();
+            while(curr){
+                subres += curr->data;
+                if(curr->left)
+                    q.push(curr->left);
+                curr = curr->right;
+            }
+        }
+        res.push_back(subres);
+   }
+   return res;
+}
+/**********************************************************************************/
