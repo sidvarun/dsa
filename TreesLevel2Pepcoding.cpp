@@ -300,3 +300,48 @@ class Solution{
     }
 };
 /**************************************************************************************/
+// Serialize and Deserialize a Binary Tree  - https://practice.geeksforgeeks.org/problems/serialize-and-deserialize-a-binary-tree/1
+
+class Solution
+{
+    public:
+    int i = 0;
+    //Function to serialize a tree and return a list containing nodes of tree.
+    void preorder(Node* root, vector<int> &res){
+        if(root == NULL){
+            res.push_back(-1);
+            return;
+        }
+        res.push_back(root->data);
+        preorder(root->left, res);
+        preorder(root->right, res);
+    }
+    vector<int> serialize(Node *root) 
+    {
+        //Your code here
+        vector<int> res;
+        preorder(root, res);
+        return res;
+    }
+    
+    //Function to deserialize a list and construct the tree.
+    Node* solve(int n, vector<int> v){
+        if(i == n)
+            return NULL;
+        int val = v[i];
+        i++;
+        if(val == -1)
+            return NULL;
+        Node* root = new Node(val);
+        root->left = solve(n, v);
+        root->right = solve(n, v);
+        return root;
+    }
+    Node* deSerialize(vector<int> &A)
+    {
+       //Your code here
+        return solve(A.size(), A);
+    }
+
+};
+/****************************************************************************/
