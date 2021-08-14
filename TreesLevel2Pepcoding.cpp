@@ -160,3 +160,70 @@ class Solution
     }
 };
 /********************************************************************/
+// 199. Binary Tree Right Side View - https://leetcode.com/problems/binary-tree-right-side-view/
+
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+       vector<int> res;
+       if(!root)
+        return res;
+       queue<TreeNode *> q;
+       q.push(root);
+       while(!q.empty()){
+           int count = q.size();
+           for(int i = 0; i<count; i++){
+               TreeNode *curr = q.front();
+               q.pop();
+               if(i == count - 1)
+                res.push_back(curr->val);
+               if(curr->left)
+                q.push(curr->left);
+               if(curr->right)
+                q.push(curr->right);
+           }
+       }
+       return res;
+    }
+};
+/****************************************************************************/
+// Top View of Binary Tree  - https://practice.geeksforgeeks.org/problems/top-view-of-binary-tree/1
+/*
+    use same concept as vertical order traversal. 
+    Maintain  a map, and a queue of pairs. do level order traversal and while pushing each node int the queue,
+    push the current vertical level.
+    While popping an element front the front of the queue, check if this is the first element of the level by using m.find(level) == m.end()
+*/
+class Solution
+{
+    public:
+    //Function to return a list of nodes visible from the top view 
+    //from left to right in Binary Tree.
+    vector<int> topView(Node *root)
+    {
+        //Your code here
+        map<int, int> m;
+        queue<pair<Node*, int>> q;
+        q.push({root, 0});
+        while(!q.empty()){
+            pair<Node*, int> p = q.front();
+            q.pop();
+            Node* curr = p.first;
+            int level = p.second;
+            // res[level].push_back(curr->val);
+            if(m.find(level) == m.end())
+                m[level] = (curr->data);
+            if(curr->left)
+                q.push({curr->left, level - 1});
+            if(curr->right)
+                q.push({curr->right, level + 1});
+        }
+        vector<int> res;
+        for (auto itr = m.begin(); itr != m.end(); ++itr) {
+                res.push_back(itr->second);
+        }
+        return res;
+    }
+
+};
+/***********************************************************************************/
