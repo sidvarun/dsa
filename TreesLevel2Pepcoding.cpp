@@ -227,3 +227,76 @@ class Solution
 
 };
 /***********************************************************************************/
+// Diagonal Traversal of Binary Tree - https://practice.geeksforgeeks.org/problems/diagonal-traversal-of-binary-tree/1#
+vector<int> diagonal(Node *root)
+{
+   // your code here
+   vector<int> res;
+   queue<Node* >q;
+   q.push(root);
+   while(!q.empty()){
+        Node* curr = q.front();
+        q.pop();
+        res.push_back(curr->data);
+        if(curr->left)
+            q.push(curr->left);
+        while(curr->right){
+            res.push_back(curr->right->data);
+            if(curr->right->left)
+                q.push(curr->right->left);
+            curr = curr->right;
+        }
+   }
+   return res;
+}
+// 
+vector<int> diagonal(Node *root)
+{
+   // your code here
+   vector<int> res;
+   queue<Node* >q;
+   q.push(root);
+   while(!q.empty()){
+        Node* curr = q.front();
+        q.pop();
+        res.push_back(curr->data);
+        if(curr->left)
+            q.push(curr->left);
+        while(curr->right){
+            res.push_back(curr->right->data);
+            if(curr->right->left)
+                q.push(curr->right->left);
+            curr = curr->right;
+        }
+   }
+   return res;
+}
+// Vertical sum  - https://practice.geeksforgeeks.org/problems/vertical-sum/1
+
+class Solution{
+    public:
+        vector <int> verticalSum(Node *root) {
+        // add code here.
+        map<int, int> m;
+        queue<pair<Node*, int>> q;
+        q.push({root, 0});
+        while(!q.empty()){
+            pair<Node*, int> p = q.front();
+            q.pop();
+            Node* curr = p.first;
+            int level = p.second;
+            // res[level].push_back(curr->val);
+            m[level] += (curr->data);
+            if(curr->left)
+                q.push({curr->left, level - 1});
+            if(curr->right)
+                q.push({curr->right, level + 1});
+        }
+        vector<int> temp;
+        for (auto itr = m.begin(); itr != m.end(); ++itr) {
+                temp.push_back(itr->second);
+        }
+        return temp;
+    }
+};
+/**************************************************************************************/
