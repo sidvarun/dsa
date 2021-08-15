@@ -1,7 +1,7 @@
 Node *reverseK(Node *head,int k){
     Node *curr=head,*next=NULL,*prev=NULL;
     int count=0;
-    while(curr!=NULL&&count<k){
+    while(curr!=NULL && count<k){
         next=curr->next;
         curr->next=prev;
         prev=curr;
