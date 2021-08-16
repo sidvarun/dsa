@@ -330,3 +330,86 @@ public:
     }
 };
 /*************************************************************************************************/
+// 28. Implement strStr() - https://leetcode.com/problems/implement-strstr/
+
+class Solution {
+public:
+    int strStr(string text, string pat){
+        int m = pat.length();
+        int n = text.length();
+        for(int i = 0; i<=n-m; i++){
+            int j;
+            for(j = 0; j<m; j++){
+                if(pat[j] != text[i + j])
+                    break;
+            }
+            if(j == m)
+                return i;
+        }
+        return -1;
+    }
+};
+/**********************************************************************/
+// Longest Prefix Suffix - https://practice.geeksforgeeks.org/problems/longest-prefix-suffix2527/1#
+class Solution{
+  public:		
+	int lps(string s) {
+	    // Your code goes here
+	    int n = s.length();
+	    int len = 0;
+	    vector<int> lps(n, 0);
+	    lps[0] = 0;
+	    int i = 1;
+	    while(i<n){
+	        if(s[len] == s[i]){
+	            len++;
+	            lps[i] = len;
+	            i++;
+	        }
+	       else{
+	           if(len == 0){
+	            lps[i] = 0;
+	            i++;
+	           }
+	           else
+	            len = lps[len - 1];
+	       }
+	    }
+	    return lps[n-1];
+	}
+};
+/*********************************************************************/
+// 1392. Longest Happy Prefix - https://leetcode.com/problems/longest-happy-prefix/
+class Solution {
+public:
+    int lps(string s) {
+	    // Your code goes here
+	    int n = s.length();
+	    int len = 0;
+	    vector<int> lps(n, 0);
+	    lps[0] = 0;
+	    int i = 1;
+	    while(i<n){
+	        if(s[len] == s[i]){
+	            len++;
+	            lps[i] = len;
+	            i++;
+	        }
+	       else{
+	           if(len == 0){
+	            lps[i] = 0;
+	            i++;
+	           }
+	           else
+	            len = lps[len - 1];
+	       }
+	    }
+	    return lps[n-1];
+    }
+    string longestPrefix(string s) {
+       int n = s.length();
+       int len = lps(s);
+       return s.substr(n - len);       
+    }
+};
+/*************************************************************************/
