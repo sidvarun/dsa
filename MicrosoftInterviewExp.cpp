@@ -233,3 +233,100 @@ class Solution {
     }
 };
 /*************************************************************************************/
+// https://www.geeksforgeeks.org/generate-a-string-consisting-of-characters-a-and-b-that-satisfy-the-given-conditions/ 
+
+// C++ implementation of the approach
+#include <bits/stdc++.h>
+using namespace std;
+
+// Function to generate and print the required string
+void generateString(int A, int B)
+{
+	string rt;
+	while (0 < A || 0 < B) {
+
+		// More 'b', append "bba"
+		if (A < B) {
+			if (0 < B--)
+				rt.push_back('b');
+			if (0 < B--)
+				rt.push_back('b');
+			if (0 < A--)
+				rt.push_back('a');
+		}
+
+		// More 'a', append "aab"
+		else if (B < A) {
+			if (0 < A--)
+				rt.push_back('a');
+			if (0 < A--)
+				rt.push_back('a');
+			if (0 < B--)
+				rt.push_back('b');
+		}
+
+		// Equal number of 'a' and 'b'
+		// append "ab"
+		else {
+			if (0 < A--)
+				rt.push_back('a');
+			if (0 < B--)
+				rt.push_back('b');
+		}
+	}
+	cout << rt;
+}
+
+// Driver code
+int main()
+{
+	int A = 2, B = 6;
+	generateString(A, B);
+
+	return 0;
+}
+
+/**************************************************************************************/
+// 1537. Get the Maximum Score - https://leetcode.com/problems/get-the-maximum-score/
+// Editorial - https://leetcode.com/problems/get-the-maximum-score/discuss/769334/C%2B%2B-soln!-REASON-behind-MODULO-in-the-end-and-not-at-every-step
+class Solution {
+public:
+    int maxSum(vector<int>& nums1, vector<int>& nums2) {
+        long long int sum1 = 0;
+        long long int sum2 = 0;  
+        int n1 = nums1.size();
+        int n2 = nums2.size();
+        int i = 0;
+        int j = 0;
+        long long int res = 0;
+        while(i < n1 && j < n2){
+            if(nums1[i] == nums2[j]){
+                res = ((res + max(sum1, sum2))+ nums1[i]);
+                sum1 = 0;
+                sum2 = 0;
+                i++;
+                j++;
+            }
+            else if(nums1[i] > nums2[j]){
+                sum2 = (sum2 + nums2[j]);
+                j++;
+            }
+            else if(nums1[i] < nums2[j]){
+                sum1 = (sum1 + nums1[i]);
+                i++;
+            }
+        }
+        while(i<n1){
+            sum1 = (sum1 + nums1[i]);
+            i++;
+        }
+        while(j<n2){
+            sum2 = (sum2 + nums2[j]);
+            j++;
+        }
+        
+        res = (res+ max(sum1, sum2));
+        return res%1000000007;
+    }
+};
+/*************************************************************************************************/
