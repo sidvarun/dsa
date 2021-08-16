@@ -151,4 +151,85 @@ public:
         return reverseK(head, k, count);
     }
 };
+// Similar problem
+/*
+    Divide the LinkedList into k segments and print the segments in reverse order. 
+    First I gave him the brute force approach and then he told me to optimize the 
+    space complexity of the code and finally code the solution. He also asked me 
+    to dry run on few test cases. eg:1-2-3-4 k=2 output:3-4-1-2.
+
+    Hint -> First reverse the linked list in groups of size K and then reverse the entire linked list.
+*/
 /*************************************************************************************************/
+// 836. Rectangle Overlap - https://leetcode.com/problems/rectangle-overlap/
+class Solution {
+public:
+    bool isRectangleOverlap(vector<int>& rec1, vector<int>& rec2) {
+        int x1 = rec1[0];
+        int y1 = rec1[1];
+        int x2 = rec1[2];
+        int y2 = rec1[3];
+        int X1 = rec2[0];
+        int Y1 = rec2[1];
+        int X2 = rec2[2];
+        int Y2 = rec2[3];
+        
+        if(x2<=X1 || x1>=X2 || y2<=Y1 || y1>=Y2)
+            return false;
+        return true;
+        
+
+    }
+};
+
+// Editorial 
+/*
+    Intuition
+
+    If the rectangles do not overlap, then rec1 must either be higher, lower, to the left, or to the right of rec2.
+
+    Algorithm
+
+    The answer for whether they don't overlap is LEFT OR RIGHT OR UP OR DOWN, where OR is the logical OR, and LEFT is a boolean that represents whether rec1 is to the left of rec2. The answer for whether they do overlap is the negation of this.
+
+    The condition "rec1 is to the left of rec2" is rec1[2] <= rec2[0], that is the right-most x-coordinate of rec1 is left of the left-most x-coordinate of rec2. The other cases are similar.
+
+    Note: we should also check if either of the rectangle is actually a line. If this is the case, then we cannot have any positive overlapping according to the definition.
+*/
+class Solution {
+    public boolean isRectangleOverlap(int[] rec1, int[] rec2) {
+        // check if either rectangle is actually a line
+        if (rec1[0] == rec1[2] || rec1[1] == rec1[3] ||
+            rec2[0] == rec2[2] || rec2[1] == rec2[3]) {
+            // the line cannot have positive overlap
+            return false;
+        }
+
+        return !(rec1[2] <= rec2[0] ||   // left
+                 rec1[3] <= rec2[1] ||   // bottom
+                 rec1[0] >= rec2[2] ||   // right
+                 rec1[1] >= rec2[3]);    // top
+    }
+}
+/************************************************************************************/
+// Overlapping rectangles  - https://practice.geeksforgeeks.org/problems/overlapping-rectangles1924/1
+class Solution {
+  public:
+    int doOverlap(int L1[], int R1[], int L2[], int R2[]) {
+        // code here
+        int x1 = L1[0];
+        int y1 = R1[1];
+        int x2 = R1[0];
+        int y2 = L1[1];
+        int X1 = L2[0];
+        int Y1 = R2[1];
+        int X2 = R2[0];
+        int Y2 = L2[1];
+        
+        if(x2<=X1 || x1>=X2 || y2<=Y1 || y1>=Y2)
+            return false;
+        return true;
+        
+    }
+};
+/*************************************************************************************/
