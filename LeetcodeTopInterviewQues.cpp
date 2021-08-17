@@ -250,3 +250,136 @@ public:
     }
 };
 /**********************************************************************************/
+// 12. Integer to Roman - https://leetcode.com/problems/integer-to-roman/
+
+class Solution {
+public:
+    string intToRoman(int num) {
+        string res = "";
+        int value[] = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
+        string  str[] = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
+        for(int i = 0; i<13; i++){
+            while(num >= value[i]){
+                num = num - value[i];
+                res += str[i];
+            }
+        }
+        return res;
+    }
+};
+/****************************************************************************/
+// 14. Longest Common Prefix - https://leetcode.com/problems/longest-common-prefix/
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        int i = 0;
+        int res = 0;
+        if(strs.size() == 1)
+            return strs[0];
+        while(true){
+            int j;
+            for(j = 0; j<strs.size() - 1; j++){
+                if(i == strs[j].size() || i == strs[j+1].size() || strs[j][i] != strs[j+1][i])
+                    break;
+            }
+            if(j != strs.size() - 1)
+                break;
+            else 
+                res++;
+            i++;
+        }
+        return strs[0].substr(0, res);    
+    }
+};
+/***********************************************************************/
+// 15. 3Sum - https://leetcode.com/problems/3sum/
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> res;
+        if(nums.size() == 0)
+            return res; 
+        sort(nums.begin(), nums.end());
+      
+        for(int i = 0; i<nums.size() - 1; i++){
+            int front = i + 1;
+            int back = nums.size() - 1;
+            int sum = nums[i] * -1;
+            while(front < back){
+                if(nums[front] + nums[back] < sum)
+                    front++;
+                else if(nums[front] + nums[back] > sum)
+                    back--;
+                else{
+                    vector<int> v = {nums[i], nums[front], nums[back]};
+                    res.push_back(v);
+                    while(front < back && nums[back] == v[2])
+                        back--;
+                    while(front < back && nums[front] == v[1])
+                        front++;
+                }
+            }
+            while(i + 1 < nums.size() && nums[i+1] == nums[i])
+                i++;
+        }
+        return res;
+    }
+};
+/*************************************************************************/
+// 17. Letter Combinations of a Phone Number - https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        queue<string> q;
+        string ref[] = {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        vector<string> res;
+        if(digits == "")
+            return res;
+        q.push("");
+        for(int i = 0; i<digits.length(); i++){
+            int c = q.size();
+            string str = ref[digits[i] - '0'];
+            while(c--){
+                string sub = q.front();
+                q.pop();
+                for(int j = 0; j<str.length(); j++)
+                    q.push(sub + str[j]);
+            }
+        }
+        while(!q.empty()){
+            res.push_back(q.front());
+            q.pop();
+        }
+        return res;
+    }
+};
+/*********************************************************************************/
+// 19. Remove Nth Node From End of List - https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* curr = head;
+        if(head == NULL)
+            return head;
+        int count = 0;
+        while(curr){
+            count++;
+            curr = curr->next;
+        }
+        int k = count - n - 1;
+        ListNode* curr1 = head;
+        if(k == -1){
+            head = head->next;
+            return head;
+        }
+        while(k-- && curr1){
+            curr1 = curr1->next;
+        }
+        if(curr1->next)
+            curr1->next = curr1->next->next;
+        else
+            curr1->next = NULL;
+        return head;
+    }
+};
+/*************************************************************************************/
