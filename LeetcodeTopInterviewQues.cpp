@@ -119,3 +119,134 @@ public:
     }
 };
 /*****************************************************************************/
+// 5. Longest Palindromic Substring - https://leetcode.com/problems/longest-palindromic-substring/
+
+class Solution {
+    public String longestPalindrome(String s) {
+        if(s == null || s.length() < 1) 
+            return "";
+        int start = 0;
+        int end = 0;
+        for(int i = 0; i<s.length(); i++){
+            int len1 = solve(s, i, i);
+            int len2 = solve(s, i, i+1);
+            int len = Math.max(len1, len2);
+            if(len > end - start){
+                start = i - ((len - 1) / 2);
+                end = i + (len / 2);
+            }
+        }
+        return s.substring(start, end + 1);
+    }
+    public int solve(String s, int left, int right){
+        if(s == null || left > right)
+            return 0;
+        while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)){
+            left--;
+            right++;
+        }
+        return right - left - 1;
+    }
+}
+/*******************************************************************************************************/
+// Longest Palindrome in a String  - https://practice.geeksforgeeks.org/problems/longest-palindrome-in-a-string3411/1#
+class Solution {
+    public String longestPalin(String s) {
+        if(s == null || s.length() < 2) 
+            return s;
+        int start = 0;
+        int end = 0;
+        for(int i = 0; i<s.length(); i++){
+            int len1 = solve(s, i, i);
+            int len2 = solve(s, i, i+1);
+            int len = Math.max(len1, len2);
+            if(len > end - start + 1){
+                start = i - ((len - 1) / 2);
+                end = i + (len / 2);
+            }
+        }
+        return s.substring(start, end + 1);
+    }
+    public int solve(String s, int left, int right){
+        if(s == null || left > right)
+            return 0;
+        while(left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)){
+            left--;
+            right++;
+        }
+        return right - left - 1;
+    }
+}
+/********************************************************************************************************/
+// 7. Reverse Integer - https://leetcode.com/problems/reverse-integer/
+class Solution {
+public:
+    int reverse(int x) {
+        long int ans = 0;
+        while(x != 0)
+        {
+            ans = (ans * 10) + (x % 10);
+            x = x/10;
+        }
+        if(ans > INT_MAX || ans < INT_MIN)
+        {
+            return 0;
+        }
+        return ans;
+    }
+};
+/*********************************************************************************************************/
+// 11. Container With Most Water - https://leetcode.com/problems/container-with-most-water/
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int n = height.size() - 1;
+        int left = 0;
+        int right = n;
+        int res = INT_MIN;
+        while(left < right){
+            res = max(res, min(height[left], height[right]) * (right - left));
+            if(height[left] < height[right])
+                left++;
+            else
+                right--;
+        }
+        return res;
+    }
+};
+// Explanation for moving the smaller of the 2
+/*
+    I found a lot of the discussion and proof about this quite opaque, but one thing helped it finally clicked for me (which is sort of proof by contradiction i guess)
+    You have two heights H_left and H_right, and H_right < H_left, then we know we have two choices, we want to move one of them. 
+    If we move the larger one, we cannot increase the height for the simple reason that we are always limited by the shortest,
+    and we would be decreasing j-i, the width as well.
+    To clarify: let's say we kept the shortest forever, what would happen? 
+    Well, j-i would decrease, and either we come across a taller block, which doesn't matter because our shorter one we kept only mattered,
+    or we find a shorter one, in which case that one matters.
+    Either way we end up with a smaller area, so we must move the shorter one because moving the larger one cannot give an increase in area.
+*/
+/***********************************************************************************/
+// 13. Roman to Integer - https://leetcode.com/problems/roman-to-integer/
+class Solution {
+public:
+    int romanToInt(string s) {
+        int n = s.length();
+        unordered_map<char, int> m = { { 'I' , 1 },
+                                       { 'V' , 5 },
+                                       { 'X' , 10 },
+                                       { 'L' , 50 },
+                                       { 'C' , 100 },
+                                       { 'D' , 500 },
+                                       { 'M' , 1000 } 
+                                    };
+        int sum = m[s[n-1]];
+        for(int i = n - 2; i>=0; i--){
+            if(m[s[i]] < m[s[i+1]])
+                sum -= m[s[i]];
+            else
+                sum += m[s[i]];
+        }
+        return sum;
+    }
+};
+/**********************************************************************************/
