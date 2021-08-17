@@ -382,4 +382,58 @@ public:
         return head;
     }
 };
+/*
+A one pass solution can be done using pointers. Move one pointer fast --> n+1 places forward, 
+to maintain a gap of n between the two pointers and then move both at the same speed. 
+Finally, when the fast pointer reaches the end, the slow pointer will be n+1 places behind - just the right spot for it to be able to skip the next node.
+Since the question gives that n is valid, not too many checks have to be put in place. Otherwise, this would be necessary.
+*/
 /*************************************************************************************/
+// 20. Valid Parentheses - https://leetcode.com/problems/valid-parentheses/
+public boolean isValid(String s) {
+	Stack<Character> stack = new Stack<Character>();
+	for (char c : s.toCharArray()) {
+		if (c == '(')
+			stack.push(')');
+		else if (c == '{')
+			stack.push('}');
+		else if (c == '[')
+			stack.push(']');
+		else if (stack.isEmpty() || stack.pop() != c)
+			return false;
+	}
+	return stack.isEmpty();
+}
+/*********************************************************************************/
+// 21. Merge Two Sorted Lists - https://leetcode.com/problems/merge-two-sorted-lists/
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(!l1)
+            return l2;
+        if(!l2)
+            return l1;
+        if(l1->val > l2->val)
+            return mergeTwoLists(l2, l1);
+        ListNode* curr = l1;
+        ListNode* curr1 = l1->next;
+        ListNode* curr2 = l2;
+        while(curr1 && curr2){
+            if(curr1->val > curr2->val){
+                curr->next = curr2;
+                curr2 = curr2->next;
+            }
+            else{
+                curr->next = curr1;
+                curr1 = curr1->next;
+            }
+            curr = curr->next;
+        }
+        if(curr1)
+            curr->next = curr1;
+        if(curr2)
+            curr->next = curr2;
+        return l1;
+    }
+};
+/**************************************************************************************/
