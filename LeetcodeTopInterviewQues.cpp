@@ -517,3 +517,63 @@ public:
     }
 };
 /******************************************************************************/
+// 29. Divide Two Integers - https://leetcode.com/problems/divide-two-integers/
+// Discussion Section : https://leetcode.com/problems/divide-two-integers/discuss/13467/Very-detailed-step-by-step-explanation-(Java-solution)
+class Solution {
+    public int divide(int dividend, int divisor) {
+        boolean isNegative = (dividend < 0 && divisor > 0) || (dividend > 0 && divisor < 0) ? true : false;
+        long absDividend = Math.abs((long) dividend);
+        long absDivisor = Math.abs((long) divisor);
+        long result = 0;
+        while(absDividend >= absDivisor){
+            long tmp = absDivisor, count = 1;
+            while(tmp <= absDividend){
+                tmp <<= 1;
+                count <<= 1;
+            }
+            result += count >> 1;
+            absDividend -= tmp >> 1;
+        }
+        return  isNegative ? (int) ~result + 1 : result > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) result;
+    }
+};
+/**************************My C++ Soln******************************************/
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        long long sign = 1;
+        if((divisor < 0 && dividend > 0) || (divisor > 0 && dividend < 0))
+            sign = -1;
+        long long absdivisor = abs(divisor);
+        long long absdividend = abs(dividend);
+        // long long  t = 0;
+        // long long  q = 0;
+        // for(long long i = 31; i >=0; i--){
+        //     if(t + divisor << i <= dividend){
+        //         t = t + divisor << i;
+        //         q = q | 1LL << i; 
+        //     }
+        // }
+        // if(sign < 0)
+        //     q = -q;
+        // return q >= INT_MAX || q<=INT_MIN ? INT_MAX : q;
+        long long temp;
+        long long res = 0;
+        while(absdividend >= absdivisor){
+            temp = absdivisor;
+            long long count = 1;
+            while(temp <= absdividend){
+                temp = temp << 1;
+                count = count << 1;
+            }
+            temp = temp >> 1;
+            count = count >> 1;
+            res += count;
+            absdividend -= temp;
+        }
+        if(sign < 0)
+            res = ~res + 1;
+        return res >= INT_MAX || res<=INT_MIN ? INT_MAX : res;
+    }
+};
+/**************************************************************************************************/
