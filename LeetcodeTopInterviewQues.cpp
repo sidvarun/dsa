@@ -437,3 +437,83 @@ public:
     }
 };
 /**************************************************************************************/
+// 22. Generate Parentheses - https://leetcode.com/problems/generate-parentheses/
+class Solution {
+public:
+    void backTrack(vector<string> &res, string s, int open, int close, int n){
+        if(s.length() == n * 2){
+            res.push_back(s);
+            return;
+        }
+        if(open < n)
+            backTrack(res, s + "(", open + 1, close, n);
+        if(close < open)
+            backTrack(res, s + ")", open, close + 1, n);
+    }
+    vector<string> generateParenthesis(int n) {
+        vector<string> res;
+        backTrack(res, "", 0, 0, n);
+        return res;
+    }
+};
+/************************************************************************************/
+// 23. Merge k Sorted Lists - https://leetcode.com/problems/merge-k-sorted-lists/
+class Solution {
+public:
+     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(!l1)
+            return l2;
+        if(!l2)
+            return l1;
+        if(l1->val > l2->val)
+            return mergeTwoLists(l2, l1);
+        ListNode* curr = l1;
+        ListNode* curr1 = l1->next;
+        ListNode* curr2 = l2;
+        while(curr1 && curr2){
+            if(curr1->val > curr2->val){
+                curr->next = curr2;
+                curr2 = curr2->next;
+            }
+            else{
+                curr->next = curr1;
+                curr1 = curr1->next;
+            }
+            curr = curr->next;
+        }
+        if(curr1)
+            curr->next = curr1;
+        if(curr2)
+            curr->next = curr2;
+        return l1;
+    }
+        
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        int n = lists.size();
+        ListNode* head = NULL;
+        if(n == 0)
+            return head;
+        if(n == 1)
+            return lists[0];
+        head = lists[0];
+        for(int i = 1; i<n; i++){
+            head = mergeTwoLists(head, lists[i]);
+        }
+        return head;
+    }
+};
+/*********************************************************************************/
+// 26. Remove Duplicates from Sorted Array - https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int index = 0;
+        for(int i = 0; i<nums.size(); ){
+            nums[index++] = nums[i];
+            while(i < nums.size() && nums[i] == nums[index - 1])
+                i++;
+        }
+        return index;
+    }
+};
+/******************************************************************************/
