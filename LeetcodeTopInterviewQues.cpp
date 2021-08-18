@@ -577,3 +577,78 @@ public:
     }
 };
 /**************************************************************************************************/
+// 33. Search in Rotated Sorted Array - https://leetcode.com/problems/search-in-rotated-sorted-array/
+/*
+    There are four situations: left is 0 index element, mid is middle elment, right is length - 1 index element
+
+    left to mid ordered and target is in [left, mid]
+    Left to mid ordered but target in the other side [mid, right]
+    right to mid ordered, target in [mid, right]
+    right to mid ordered but in the other side in [left, mid]
+    Then we can use binary search
+*/
+/*
+    Main Idea : If we stand at any point in  array it will always be the case that either the left half is 
+    sorted or the right half is sorted.
+    So, we find out if the left half is sorted or the right half is sorted. 
+    If suppose we find that the left half is sorted, we see if the target lies in this sorted array.
+*/ 
+
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int n = nums.size();
+        int low  = 0; 
+        int high = n - 1;
+        while(low <= high){
+            int mid = (low + high) / 2;
+            if(nums[mid] == target)
+                return mid;
+            if(nums[low] <= nums[mid]){
+                if(target >= nums[low] && target < nums[mid])
+                    high = mid - 1;
+                else 
+                    low = mid + 1;
+            }
+            else if(nums[mid] <= nums[high]){
+                if(target <= nums[high] && target > nums[mid])
+                    low = mid + 1;
+                else
+                    high = mid - 1;
+            }
+            
+        }
+        return -1;
+    }
+};
+// Inefficient Solution
+int binarySearch(vector<int> nums, int low, int high, int target){
+        while(low <= high){
+            int mid = low + (high - low) / 2;;
+            if(nums[mid] == target)
+                return mid;
+            if(nums[mid] > target)
+                high = mid - 1;
+            else
+                low = mid + 1;
+        }
+        return -1;
+
+    }
+    int search(vector<int>& nums, int target) {
+        int n = nums.size();
+        int pivot = 0;
+        for(int i = 1; i<n; i++){
+            if(nums[i] < nums[i - 1]){
+                pivot = i;
+                break;
+            }
+        }
+        if(target == nums[pivot])
+            return pivot;
+        if(target > nums[n-1])
+            return binarySearch(nums, 0, pivot - 1, target);
+        else
+            return binarySearch(nums, pivot, n-1, target);
+    }
+/***************************************************************************************/
