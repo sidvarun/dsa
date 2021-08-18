@@ -783,3 +783,139 @@ public:
     }
 };
 /**********************************************************************************************************/
+// 36. Valid Sudoku - https://leetcode.com/problems/valid-sudoku/
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        set<string> s;
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                if(board[i][j] != '.'){
+                    string s1 = to_string(board[i][j] - '0') + " belongs to row" + to_string(i); 
+                    string s2 = to_string(board[i][j] - '0') + " belongs to col" + to_string(j); 
+                    string s3 = to_string(board[i][j] - '0') + " belongs to grid" + to_string(i/3) + to_string(j/3); 
+                    if(s.count(s1) != 0 || s.count(s2) != 0 || s.count(s3) != 0)
+                        return false;
+                    s.insert(s1);
+                    s.insert(s2);
+                    s.insert(s3);
+                }
+            }
+        }
+        return true;
+    }
+};
+/************************************************************************************************************/
+// 42. Trapping Rain Water - https://leetcode.com/problems/trapping-rain-water/
+/*
+    2 conditions -> 1) if height[l] <= height[r] : this will aussure that the pillar at r will support whatever water l can store.
+                    Also see that leftMax will always we smaller than pillar at r because l++ will happen onl 
+*/
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int res = 0;
+        int n = height.size();
+        int l = 0;
+        int r = n - 1;
+        int leftMax = 0;
+        int rightMax = 0;
+        while(l < r){
+            if(height[l] <= height[r]){
+                if(height[l] > leftMax)
+                    leftMax = height[l];
+                else
+                    res += leftMax - height[l];
+                l++;
+            }
+            else{
+                if(height[r] > rightMax)
+                    rightMax = height[r];
+                else
+                    res += rightMax - height[r];
+                r--;
+            }
+        }
+        return res;
+    }
+};
+////////////////////////////////////////////////////
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int res = 0;
+        int n = height.size();
+        vector<int> maxOnLeft;
+        maxOnLeft.push_back(0);
+        int maxm = height[0];
+        for(int i = 1; i<n; i++){
+            maxOnLeft.push_back(maxm);
+            maxm = max(maxm, height[i]);
+        }
+        vector<int> maxOnRight;
+        maxOnRight.push_back(0);
+        maxm = height[n-1];
+        for(int i = n-2; i>=0; i--){
+            maxOnRight.push_back(maxm);
+            maxm = max(maxm, height[i]);
+        }
+        reverse(maxOnRight.begin(), maxOnRight.end());
+        for(int i = 1; i < n-1; i++){
+            int subres = min(maxOnRight[i], maxOnLeft[i]) - height[i];
+            if(subres > 0)
+                res += subres;
+        }
+        return res;
+    }
+};
+/**************************************************************************************************************/
+// 46. Permutations - https://leetcode.com/problems/permutations/
+class Solution {
+public:
+    void backTrack(vector<vector<int>> &res, vector<int> &v, vector<int> &nums, map<int, int> &m){
+        if(v.size() == nums.size()){
+            res.push_back(v);
+            return;
+        }
+        for(int i = 0; i<nums.size(); i++){
+            if(m.find(nums[i]) == m.end()){
+                m[nums[i]] = 1;
+                v.push_back(nums[i]);
+                backTrack(res, v, nums, m);
+                v.pop_back();
+                m.erase(nums[i]);
+            } 
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> v;
+        map<int, int> m;
+        backTrack(res, v, nums, m);
+        return res;
+    }
+};
+/*************************************************************************************************/
+// 78. Subsets - https://leetcode.com/problems/subsets/
+class Solution {
+public:
+    void backTrack(vector<vector<int>> &res, vector<int> &v, vector<int> &nums, int index){
+        if(v.size() == nums.size()){
+            res.push_back(v);
+            return;
+        }
+        res.push_back(v);
+        for(int i = index; i<nums.size(); i++){
+                v.push_back(nums[i]);
+                backTrack(res, v, nums, i + 1);
+                v.pop_back();
+        }
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> v;
+        backTrack(res, v, nums, 0);
+        return res;
+    }
+};
+/**************************************************************************************************/
