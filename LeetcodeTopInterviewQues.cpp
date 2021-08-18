@@ -975,3 +975,37 @@ public:
     }
 };
 /******************************************************************/
+// 53. Maximum Subarray - https://leetcode.com/problems/maximum-subarray/
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int maxSoFar = nums[0];
+        int res = nums[0];
+        for(int i = 1; i<nums.size(); i++){
+            maxSoFar = max(nums[i], maxSoFar + nums[i]);
+            res = max(res, maxSoFar);
+        }
+        return res;
+    }
+};
+/***********************************************************************/
+// 55. Jump Game - https://leetcode.com/problems/jump-game/
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
+        bool dp[n];
+        memset(dp, false, sizeof(dp));
+        dp[n - 1] = true;
+        for(int i = n - 2; i >= 0; i--){
+            for(int j = 1; j <= nums[i]; j++){
+                if(i + j < n && dp[i + j]){
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[0];
+    }
+};
+/************************************************************************/
