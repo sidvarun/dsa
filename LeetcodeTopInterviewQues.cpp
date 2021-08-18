@@ -935,6 +935,7 @@ public:
 };
 /*************************************************************/
 // 49. Group Anagrams - https://leetcode.com/problems/group-anagrams/
+// if we sort 2 anagrams, we get the same string, so we to this sorted string, all such anagras in a vector 
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
