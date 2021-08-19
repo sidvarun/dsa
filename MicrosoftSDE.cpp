@@ -186,6 +186,25 @@ public:
         return res;
     }
 };
-/********************************************************/
-
-
+/***************************************************************/
+// 6. Find missing in second array  - https://practice.geeksforgeeks.org/problems/in-first-but-second5423/1/?track=mts-hashing&batchId=341
+public:
+	vector<long long> findMissing(long long a[], long long b[],  
+                 int n, int m) 
+	{ 
+	    // Store all elements of  
+	    // second array in a hash table 
+	    unordered_set <long long> s;
+	    vector<long long> ans;
+	    for (int i = 0; i < m; i++) 
+	        s.insert(b[i]); 
+	  
+	    // Print all elements of  
+	    // first array that are not 
+	    // present in hash table 
+	    for (int i = 0; i < n; i++) 
+	        if (s.find(a[i]) == s.end()) 
+	            ans.push_back(a[i]);
+	    return ans;
+	} 
+/**************************************************************************/
