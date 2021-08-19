@@ -250,3 +250,158 @@ class Solution {
     }
 };
 /*****************************************************************************************/
+// 8. Intersection of two arrays  - https://practice.geeksforgeeks.org/problems/intersection-of-two-arrays2404/1/?track=mts-hashing&batchId=341
+ int NumberofElementsInIntersection (int a[], int b[] , int n, int m)
+    {
+        //using set to store the elements.
+    	unordered_set<int> s1;
+        int count = 0;
+        
+        //we insert all the elements of first array in set s1. 
+    	for(int i=0;i<n;i++)
+    		s1.insert(a[i]);
+        
+        //iterating over the second array.
+    	for(int i=0;i<m;i++)
+    	{
+    	    //if current element already exists in set, we update the counter.
+    		if(s1.find(b[i]) != s1.end()){
+    		    
+    		    //erasing element from set because if same element is present 
+    		    //again in the array we don't need to count it again. 
+    		    s1.erase(b[i]);
+    		    
+    		    //incrementing the counter. 
+    		    count++;
+    		}
+    	}
+    	//returning the counter.
+    	return count;
+    }
+};
+/********************************************************************************************/
+// 9. Array Pair Sum Divisibility Problem - https://practice.geeksforgeeks.org/problems/array-pair-sum-divisibility-problem3257/1/?track=mts-hashing&batchId=341#
+class Solution {
+  public:
+    bool canPair(vector<int> nums, int k) {
+        int n = nums.size();
+        // An odd length array cannot be divided into pairs
+        if (n & 1) return false;
+
+        // Create a frequency array to count occurrences
+        // of all remainders when divided by k.
+        map<int, int> freq;
+
+        // Count occurrences of all remainders
+        for (int i = 0; i < n; i++) freq[nums[i] % k]++;
+
+        // Traverse input array and use freq[] to decide
+        // if given array can be divided in pairs
+        for (int i = 0; i < n; i++) {
+            // Remainder of current element
+            int rem = nums[i] % k;
+
+            // If remainder with current element divides
+            // k into two halves.
+            if (2 * rem == k) {
+                // Then there must be even occurrences of
+                // such remainder
+                if (freq[rem] % 2 != 0) return false;
+            }
+
+            // If remainder is 0, then there must be two
+            // elements with 0 remainder
+            else if (rem == 0) {
+                if (freq[rem] & 1) return false;
+            }
+
+            // Else number of occurrences of remainder
+            // must be equal to number of occurrences of
+            // k - remainder
+            else if (freq[rem] != freq[k - rem])
+                return false;
+        }
+        return true;
+    }
+};
+//////////////////////////////////////////////////////////
+class Solution {
+  public:
+    bool canPair(vector<int> nums, int k) {
+        // Code here.
+        map<int, int> m;
+        for(int i = 0; i<nums.size(); i++)
+            m[nums[i] % k]++;
+        if(m[0] % 2 != 0)
+            return false;
+        for(int i = 1; i<k; i++){
+            if(m[i] != m[k - i])
+                return false;
+        }
+        return true;
+    }
+};
+/****************************************************************************************************/
+// 560. Subarray Sum Equals K - https://leetcode.com/problems/subarray-sum-equals-k/
+// See editorial method 4 for explanation
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        unordered_map<int, int> m;
+        m[0] = 1;
+        int sum = 0;
+        int res = 0;
+        for(int i = 0; i<nums.size(); i++){
+            sum += nums[i];
+            if(m.find(sum-k) != m.end())
+                res += m[sum - k];
+            m[sum]++;
+        }
+        return res;
+    }
+};
+///////////
+class Solution{
+    public:
+    // Function to find number of subArrays
+    // with k exactly equal to k.
+    int findSubArraySum(int Arr[], int N, int k)
+    {
+        // STL map to store number of subArrays
+        // starting from index zero having
+        // particular value of k.
+        unordered_map<int, int> prevk;
+     
+        int res = 0;
+     
+        // k of elements so far.
+        int currk = 0;
+     
+        for (int i = 0; i < N; i++) {
+     
+            // Add current element to k so far.
+            currk += Arr[i];
+     
+            // If currk is equal to desired k,
+            // then a new subArray is found. So
+            // increase count of subArrays.
+            if (currk == k)
+                res++;
+     
+            // currk exceeds given k by currk
+            //  - k. Find number of subArrays having
+            // this k and exclude those subArrays
+            // from currk by increasing count by
+            // same amount.
+            if (prevk.find(currk - k) != prevk.end())
+                res += (prevk[currk - k]);
+     
+            // Add currk value to count of
+            // different values of k.
+            prevk[currk]++;
+        }
+        return res;
+    } 
+};
+/***************************************************************************/
+
