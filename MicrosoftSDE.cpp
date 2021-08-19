@@ -430,5 +430,34 @@ public:
     }
 };
 /**********************************************************************************/
+// 11. Longest subarray with sum divisible by K - https://practice.geeksforgeeks.org/problems/longest-subarray-with-sum-divisible-by-k1259/1/?track=mts-hashing&batchId=341#
+class Solution{
+public:	
+	int longSubarrWthSumDivByK(int arr[], int n, int k)
+	{
+	    // Complete the function
+	   // int n = nums.size();
+        map<int, int> m;
+        int res = 0;
+        int sum = 0;
+        int rem = 0;
+        for(int i = 0; i < n; i++)
+        {
+            sum += arr[i];
+            rem = sum % k;
+            if(rem < 0){
+                rem += k;
+            }
+            if(rem == 0)
+                res = i + 1;
+            else if(m.find(rem) != m.end())
+                res = max(res, i - m[rem]);
+            else
+                m[rem] = i;
+        }
+        return res;
+	}
+};
+/***********************************************************************************/
 
 
