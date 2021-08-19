@@ -65,4 +65,127 @@ public:
     }
 };
 /******************************************************************************************************/
+// 3. Largest subarray with 0 sum  - https://practice.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1/?track=mts-hashing&batchId=341#
+// Editorial :
+int maxLen(int A[], int n)
+{
+    // Map to store the previous sums
+    map<int, int> p;
+    int sum = 0; // Initialize the sum of elements
+    int len = 0; // Initialize result
+
+    for (int i = 0; i < n; i++)
+    {
+        // Add current element to sum
+        sum += A[i];
+        if(A[i] == 0 and len == 0)
+            len = 1;
+        if(sum == 0)
+            len = i + 1;
+
+        // Look for this sum in Hash table
+        if (p.find(sum) != p.end())
+        {
+            // If this sum is seen before, then update max_len
+            len = max(len, i - p[sum]);
+        }
+        else
+        {
+            // Else insert this sum with index in hash table
+            p[sum] = i;
+        }
+    }
+    return len;
+}
+////////////////////////////////////////////////////////////////
+int maxLen(int A[], int n)
+{
+    // Your code here
+    map<int, int> m;
+    int res = 0;
+    m[A[0]] = 0;
+    int pSum = A[0];
+    for(int i = 1; i<n; i++){
+        pSum += A[i];
+        if(pSum == 0)
+            res = i + 1;
+        else if(m.find(pSum) != m.end())
+            res = max(res, i - m[pSum]);
+        else
+            m[pSum] = i;
+    }
+    return res;
+}
+/****************************************************************************************************/
+// 4. Longest consecutive subsequence  - https://practice.geeksforgeeks.org/problems/longest-consecutive-subsequence2449/1/?track=mts-hashing&batchId=341
+class Solution{
+  public:
+    //Function to return length of longest subsequence of consecutive integers.
+    int findLongestConseqSubseq(int arr[], int n)
+    {
+        //using a Set to store elements.
+        unordered_set<int> S;
+        int ans = 0;
+ 
+        //inserting all the array elements in Set.
+        for (int i = 0; i < n; i++)
+           S.insert(arr[i]);
+ 
+        //checking each possible sequence from the start.
+        for (int i = 0; i < n; i++)
+        {
+           //if current element is starting element of a sequence then only 
+           //we try to find out the length of sequence.
+           if (S.find(arr[i] - 1) == S.end())
+           {
+               
+                int j = arr[i];
+                //then we keep checking whether the next consecutive elements
+                //are present in Set and we keep incrementing the counter.
+                while (S.find(j) != S.end())
+                j++;
+ 
+            //storing the maximum count.
+            ans = max(ans, j - arr[i]);
+            }
+        }
+        //returning the length of longest subsequence
+        return ans;
+    }
+};
+/*****************************************************************************************************/
+// 16. 3Sum Closest - https://leetcode.com/problems/3sum-closest/
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        int res = INT_MIN;
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        int i = 0;
+        int left = 1;
+        int right = n - 1;
+        for(int i = 0; i<nums.size() - 2 ; i++){
+            if(i > 0 && nums[i] == nums[i-1])
+                continue;
+            left = i + 1;
+            right = n - 1;
+            while(left < right){
+            int sum = nums[i] + nums[left] + nums[right];
+            if(target == sum)
+                return sum;
+            if(abs(target - sum) < abs((long long)target - res)){
+                res = sum;
+            }
+            if(target > sum)
+                left++;
+            else
+                right--;
+            
+            }
+        }
+        return res;
+    }
+};
+/********************************************************/
+
 
