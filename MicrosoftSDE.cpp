@@ -404,4 +404,31 @@ class Solution{
     } 
 };
 /***************************************************************************/
+// 974. Subarray Sums Divisible by K - https://leetcode.com/problems/subarray-sums-divisible-by-k/
+// Explanation - https://leetcode.com/problems/subarray-sums-divisible-by-k/discuss/413234/DETAILED-WHITEBOARD!-BEATS-100-(Do-you-really-want-to-understand-It)
+
+class Solution {
+public:
+    int subarraysDivByK(vector<int>& arr, int k) {
+        map<int, int> m;
+        int n = arr.size();
+        int res = 0;
+        int sum = 0;
+        int rem = 0;
+        m[0] = 1;
+        for(int i = 0; i < n; i++)
+        {
+            sum += arr[i];
+            rem = sum % k;
+            if(rem < 0){
+                rem += k;
+            }
+            res += m[rem];
+            m[rem]++;
+        }
+        return res;
+    }
+};
+/**********************************************************************************/
+
 
