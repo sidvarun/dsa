@@ -487,6 +487,23 @@ public:
 	}
 };
 /***********************************************************************************/
+// 12. Key Pair  - https://practice.geeksforgeeks.org/problems/key-pair5616/1/?track=mts-hashing&batchId=341
+class Solution{
+public:	
+	// Function to check if array has 2 elements
+	// whose sum is equal to the given value
+	bool hasArrayTwoCandidates(int arr[], int n, int x) {
+	    // code here
+	    map<int, int> m;
+	    for(int i = 0; i<n; i++){
+	        if(m.find(x - arr[i]) !=m.end())
+	            return true;
+	        m[arr[i]] = 1;
+	    }
+	    return false;
+	}
+};
+/**************************************************************************************/
 
 
 
