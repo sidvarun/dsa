@@ -215,6 +215,94 @@ public class Main {
         System.out.println(dp[0][dp[0].length - 1]);
     }
 }
+/**************************************************************************************************/
+// 18. WildCard pattern matching 
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		String s1 = scn.next();
+		String s2 = scn.next();
+		System.out.println(solution(s1,s2));
+	}
+
+	public static boolean solution(String str, String pattern) {
+		boolean[][] dp = new boolean[pattern.length() + 1][str.length() + 1];
+		for(int i = dp.length - 1; i >= 0 ;i--) {
+			for(int j = dp[0].length - 1; j >= 0; j--) {
+				if(i == dp.length - 1 && j == dp[0].length - 1) {
+					dp[i][j] = true;
+				}else if(i == dp.length - 1) {
+					dp[i][j] = false;
+				}else if(j == dp[0].length - 1) {
+					if(pattern.charAt(i) == '*') {
+						dp[i][j] = dp[i + 1][j];
+					}
+				}else {
+					if(pattern.charAt(i) == '?') {
+						dp[i][j] = dp[i + 1][j + 1];
+					}else if(pattern.charAt(i) == '*') {
+						dp[i][j] = dp[i][j + 1] || dp[i + 1][j];
+					}else if(pattern.charAt(i) == str.charAt(j)) {
+						dp[i][j] = dp[i + 1][j + 1];
+					}else {
+						dp[i][j] = false;
+					}
+				}
+			}
+		}
+		
+		return (dp[0][0]);
+	}
+
+}
+/******************************************************************************************/
+// 19. Regular Expression Matching
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		String s1 = scn.next();
+		String s2 = scn.next();
+		System.out.println(solution(s1,s2));
+	}
+
+	public static boolean solution(String s, String p) {
+		boolean[][] dp = new boolean[p.length() + 1][s.length() + 1];
+        dp[0][0] = true;
+        for(int i = 1 ; i < dp.length; i++){
+            for(int j = 0 ; j < dp[0].length; j++){
+                if(j == 0 ){
+                    if(p.charAt(i - 1) == '*')
+                        dp[i][j] = dp[i - 2][j];
+                }else{
+                    if(p.charAt(i - 1) == '.' || p.charAt(i - 1) == s.charAt(j - 1)){
+                        dp[i][j] = dp[i - 1][j - 1];
+                    }else if(p.charAt(i - 1) == '*'){
+                        dp[i][j] = dp[i - 2][j];
+                        if(p.charAt(i - 2) == s.charAt(j - 1) || p.charAt(i - 2) == '.')
+                            dp[i][j] = dp[i][j - 1] || dp[i - 2][j];
+                    }
+                }
+                
+            }
+        }
+        return dp[dp.length - 1][dp[0].length - 1];
+	}
+
+}
+/**************************************************************************************************/
+
+
+                        
+
+                        
 
 
                         
