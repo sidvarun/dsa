@@ -350,6 +350,58 @@ public class Main {
 
 }
 /****************************************************************************************************/
+// 22. Unique Binary Search Trees
+class Solution {
+    public:
+        int numTrees(int n) {
+            if(n == 1)
+                return 1;
+            int dp[n + 1];
+            memset(dp, 0, sizeof(dp));
+            dp[0] = 1;
+            dp[1] = 1;
+            dp[2] = 2;
+            for(int i = 3; i<=n; i++){
+                 for(int j = 0; j < i; j++){
+                    dp[i] += dp[j] * dp[i - 1 - j];
+                 }
+            }
+            return dp[n];
+        }
+};
+/***************************************************************************************************/
+// 23. Counting Valleys & Mountains
+import java.io.*;
+import java.util.*;
+
+public class Main {
+   public static void main(String[] args) throws Exception {
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      int n = Integer.parseInt(br.readLine());
+      long[] dp = new long[n + 1];
+      dp[0] = 1;
+      dp[1] = 1;
+      for(int i = 2; i < dp.length; i++){
+         int inside = i - 1;
+         int outside = 0;
+         while(inside >= 0){
+             dp[i] += dp[inside] * dp[outside];
+             inside--;
+             outside++;
+         }
+      }
+      System.out.println(dp[n]);
+   }
+}
+/*************************************************************************************************/
+
+                        
+
+
+                        
+
+                        
+
 
                         
 
