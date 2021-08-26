@@ -728,6 +728,11 @@ public class Main {
 }
 /******************************************************************************************************/
 // 36. Longest Common Substring
+/*
+    Idea : the idea is to find the all the suffixes of string s1 and s2 and then 
+    to find the longest common suffix among all these prefixes, this will be same 
+    as the longest common substring of s1 and s2.
+*/
 import java.io.*;
 import java.util.*;
 
