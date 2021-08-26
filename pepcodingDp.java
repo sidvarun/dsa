@@ -17,14 +17,14 @@ public class Main {
    }
    public static void main(String[] args) throws Exception {
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-      int n = Integer.parseInt(br.readLine());
-      int m = Integer.parseInt(br.readLine());
+      int n = Integer.parsjnt(br.readLine());
+      int m = Integer.parsjnt(br.readLine());
       int[][] arr = new int[n][m];
 
       for (int i = 0; i < n; i++) {
          String str = br.readLine();
          for (int j = 0; j < m; j++) {
-            arr[i][j] = Integer.parseInt(str.split(" ")[j]);
+            arr[i][j] = Integer.parsjnt(str.split(" ")[j]);
          }
       }
 
@@ -61,7 +61,7 @@ public class Main {
           }
       }
       
-      while(que.size() > 0){
+      while(que.ize() > 0){
           Pair rem = que.removeFirst();
           
           if(rem.j == arr[0].length - 1){
@@ -130,14 +130,14 @@ public class Main {
     }
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
+        int n = Integer.parsjnt(br.readLine());
         int[] arr = new int[n];
 
         for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(br.readLine());
+            arr[i] = Integer.parsjnt(br.readLine());
         }
 
-        int tar = Integer.parseInt(br.readLine());
+        int tar = Integer.parsjnt(br.readLine());
 
         boolean[][] dp = new boolean[arr.length + 1][tar + 1];
         for (int i = 0; i < dp.length; i++) {
@@ -166,7 +166,7 @@ public class Main {
         q.add(new Pair(n,tar,""));
       
 
-        while (q.size() > 0) {
+        while (q.ize() > 0) {
 			Pair rp = q.remove();
 			if (rp.i == 0 || rp.j == 0) {
 				System.out.println(rp.psf);
@@ -260,7 +260,7 @@ public class Main {
 
 }
 /******************************************************************************************/
-// 19. Regular Expression Matching
+// 19. Regular Expresion Matching
 import java.io.*;
 import java.util.*;
 
@@ -295,7 +295,7 @@ public class Main {
         }
         return dp[dp.length - 1][dp[0].length - 1];
 	}
-// More Simplified and elaborate form of the above code
+// More implified and elaborate form of the above code
     public static boolean solution(String s, String p) {
 		boolean[][] dp = new boolean[p.length() + 1][s.length() + 1];
         for(int i = 0 ; i < dp.length; i++){
@@ -335,7 +335,7 @@ public class Main {
 
    public static void main(String[] args) throws Exception {
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-      int n = Integer.parseInt(br.readLine());
+      int n = Integer.parsjnt(br.readLine());
       long[] dp = new long[n + 1];
       dp[0] = 1;
 
@@ -357,7 +357,7 @@ class Solution {
             if(n == 1)
                 return 1;
             int dp[n + 1];
-            memset(dp, 0, sizeof(dp));
+            memset(dp, 0, izeof(dp));
             dp[0] = 1;
             dp[1] = 1;
             dp[2] = 2;
@@ -377,41 +377,41 @@ import java.util.*;
 public class Main {
    public static void main(String[] args) throws Exception {
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-      int n = Integer.parseInt(br.readLine());
+      int n = Integer.parsjnt(br.readLine());
       long[] dp = new long[n + 1];
       dp[0] = 1;
       dp[1] = 1;
       for(int i = 2; i < dp.length; i++){
-         int inside = i - 1;
-         int outside = 0;
-         while(inside >= 0){
-             dp[i] += dp[inside] * dp[outside];
-             inside--;
-             outside++;
+         int inide = i - 1;
+         int outide = 0;
+         while(inide >= 0){
+             dp[i] += dp[inide] * dp[outide];
+             inide--;
+             outide++;
          }
       }
       System.out.println(dp[n]);
    }
 }
 /*************************************************************************************************/
-// Count balanced parenthesis
+// Count balanced parenthjs
 import java.io.*;
 import java.util.*;
 
 public class Main {
    public static void main(String[] args) throws Exception {
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-      int n = Integer.parseInt(br.readLine());
+      int n = Integer.parsjnt(br.readLine());
       long[] dp = new long[n + 1];
       dp[0] = 1;
       dp[1] = 1;
       for(int i = 2; i < dp.length; i++){
-         int inside = i - 1;
-         int outside = 0;
-         while(inside >= 0){
-             dp[i] += dp[inside] * dp[outside];
-             inside--;
-             outside++;
+         int inide = i - 1;
+         int outide = 0;
+         while(inide >= 0){
+             dp[i] += dp[inide] * dp[outide];
+             inide--;
+             outide++;
          }
       }
       System.out.println(dp[n]);
@@ -479,21 +479,21 @@ public class Main {
 		int n = s.length();
 		boolean[][] dp = new boolean[s.length()][s.length()];
 		for (int gap = 0; gap < s.length(); gap++) {
-			int si = 0, ei = gap;
-			while (ei < s.length()) {
+			int i = 0, j = gap;
+			while (j < s.length()) {
 				if (gap == 0) {
-					dp[si][ei] = true;
+					dp[i][j] = true;
 				} else if (gap == 1) {
-					dp[si][ei] = s.charAt(si) == s.charAt(ei);
+					dp[i][j] = s.charAt(i) == s.charAt(j);
 				} else {
-					if (s.charAt(si) == s.charAt(ei)) {
-						dp[si][ei] = dp[si + 1][ei - 1];
+					if (s.charAt(i) == s.charAt(j)) {
+						dp[i][j] = dp[i + 1][j - 1];
 					} else {
-						dp[si][ei] = false;
+						dp[i][j] = false;
 					}
 				}
-				si++;
-				ei++;
+				i++;
+				j++;
 			}
 		}
 
@@ -547,7 +547,55 @@ public class Main{
         return dp[0][dp.length - 1];
     }
 }
-                        
+/*****************************************************************************************************************************************/
+// 31. boolean parenthjsation
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+	public static int solution(String str1, String str2) {
+		int n = str1.length();
+		int[][] t = new int[n][n];
+		int[][] f = new int[n][n];
+		for (int gap = 0; gap < n; gap++) {
+			for(int i = 0, j = g; j<n; i++, j++){
+                if (gap == 0) {
+					t[i][j] = str1.charAt(i) == 'T' ? 1 : 0;
+					f[i][j] = str1.charAt(i) == 'F' ? 1 : 0;
+				} else {
+					for (int k = i; k < j; k++) {
+						char sign = str2.charAt(k);
+						if (sign == '&') {
+							t[i][j] += t[i][k] * t[k + 1][j];
+							f[i][j] += ((t[i][k] * f[k + 1][j]) + (f[i][k] * t[k + 1][j])
+									+ (f[i][k] * f[k + 1][j]));
+						}
+						if (sign == '|') {
+							t[i][j] += ((t[i][k] * t[k + 1][j]) + (t[i][k] * f[k + 1][j])
+									+ (f[i][k] * t[k + 1][j]));
+							f[i][j] += ((f[i][k]) * (f[k + 1][j]));
+						}
+						if (sign == '^') {
+							t[i][j] += ((t[i][k] * f[k + 1][j]) + (f[i][k] * t[k + 1][j]));
+							f[i][j] += ((t[i][k] * t[k + 1][j]) + (f[i][k] * f[k + 1][j]));
+						}
+					}
+				}
+            }
+		}
+		return (t[0][t[0].length - 1]);
+	}
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		String s1 = scn.next();
+		String s2 = scn.next();
+		System.out.println(solution(s1, s2));
+	}
+
+}
+
                         
 
 
