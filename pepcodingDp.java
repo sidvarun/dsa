@@ -442,7 +442,7 @@ public class Main {
 }
 // Another way is to just find out the catalan of n/2 where n is the number of chords 
 /***********************************************************************************************/
-// Cutting rod for maximum profit
+// 28. Cutting rod for maximum profit
 public class Main {
 
     public static int solution(int[] prices){
@@ -469,7 +469,84 @@ public class Main {
 
 }
 /*******************************************************************************************/
+// 29. Palindromic Partitioning
+import java.io.*;
+import java.util.*;
 
+public class Main {
+
+	public static int minPalindromicCut(String s) {
+		int n = s.length();
+		boolean[][] dp = new boolean[s.length()][s.length()];
+		for (int gap = 0; gap < s.length(); gap++) {
+			int si = 0, ei = gap;
+			while (ei < s.length()) {
+				if (gap == 0) {
+					dp[si][ei] = true;
+				} else if (gap == 1) {
+					dp[si][ei] = s.charAt(si) == s.charAt(ei);
+				} else {
+					if (s.charAt(si) == s.charAt(ei)) {
+						dp[si][ei] = dp[si + 1][ei - 1];
+					} else {
+						dp[si][ei] = false;
+					}
+				}
+				si++;
+				ei++;
+			}
+		}
+
+		int[] cuts = new int[n];
+		for (int i = 0; i < n; i++) {
+			if (dp[0][i] == true) {
+				cuts[i] = 0;
+			} else {
+				cuts[i] = Integer.MAX_VALUE;
+				for (int j = 0; j < i; j++) {
+					if(dp[j + 1][i] == true && 1 + cuts[j] < cuts[i]){
+						cuts[i] = 1 + cuts[j];
+					}
+				}
+			}
+		}
+		return cuts[n - 1];
+	}
+
+	public static void main(String[] args) {
+		Scanner scn = new Scanner(System.in);
+		String str = scn.nextLine();
+		System.out.println(minPalindromicCut(str));
+	}
+}
+/*****************************************************************************************/ 
+// 30. Matrix Chain Multiplication
+public class Main{
+    public static int mcm(int[] arr){
+        int[][] dp = new int[arr.length - 1][arr.length - 1];
+        for(int g = 0; g < dp.length; g++){
+            for(int i = 0, j = g; j<dp.length; i++, j++){
+                if(g == 0)
+                    dp[i][j] = 0;
+                else if(gap == 1)
+                    dp[i][j] = arr[i] * arr[j] * arr[j + 1];
+                else{
+                    int minm  = Integer.MAX_VALUE;
+                    for(int k = i; k < j; k++){
+                        int lc = dp[i][k];
+                        int rc = dp[k + 1][j];
+                        int mc = arr[i] * arr[k + 1] * arr[j + 1];
+                        int tc = lc + rc + mc;
+                        if(tc < minm)
+                            minm = tc;
+                    }
+                    dp[i][j] = minm
+                }
+            }
+        }
+        return dp[0][dp.length - 1];
+    }
+}
                         
                         
 
