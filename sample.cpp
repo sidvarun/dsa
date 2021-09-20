@@ -55,3 +55,24 @@ int main(){
     cout<<ans;
     return 0;
 }
+
+
+int height(int n){
+    queue<int> q;
+    q.push(n);
+    // q.push(0);
+    int h = 0;
+    while(!q.empty()){
+        int count = q.size();
+        for(int i = 0; i<q.size(); i++){
+            int curr = q.top();
+            q.pop();
+            for(int i = 2; i<=curr/2; i++){
+                if(curr%i == 0)
+                    q.push(i);
+            }
+        }
+        h++;
+    }
+    return h;
+}
