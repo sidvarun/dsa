@@ -1,0 +1,48 @@
+https://leetcode.com/problems/length-of-last-word/
+
+
+Well, the basic idea is very simple.
+Start from the tail of s and move backwards to find the first non-space character. 
+Then from this character, move backwards and count the number of non-space characters until we pass over the head of s or meet a space character. The count will then be the length of the last word.
+
+class Solution {
+public:
+    int lengthOfLastWord(string s) { 
+        int len = 0, tail = s.length() - 1;
+        while (tail >= 0 && s[tail] == ' ') tail--;
+        while (tail >= 0 && s[tail] != ' ') {
+            len++;
+            tail--;
+        }
+        return len;
+    }
+};
+
+// My soln, less optimised
+
+Removed spaces at the front and end first
+
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+        int i = 0;
+        int j = s.length() - 1;
+        while(i<j && s[i] == ' ')
+            i++;
+        while(j>i && s[j] == ' ')
+            j--;
+        if(i == j)
+            return 1;
+        int start = i, end = i;
+        while(end <= j){
+            if(s[end] == ' '){
+                end++;
+                start = end;
+            }
+            else
+                end++;
+        }
+        return end - start;
+        
+    }
+};
