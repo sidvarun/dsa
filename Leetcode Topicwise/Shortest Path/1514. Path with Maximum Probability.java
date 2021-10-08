@@ -1,0 +1,29 @@
+https://leetcode.com/problems/path-with-maximum-probability/
+
+// Bellman Ford 
+class Solution {
+    public double maxProbability(int n, int[][] edges, double[] succProb, int start, int end) 
+    {
+        double[] ret=new double[n];
+        ret[start]=1;
+        boolean flag;
+        for(int i=0;i<n;++i){
+            flag = false;
+            for(int j=0;j<edges.length;++j)
+            {
+                int[] e=edges[j];
+                if(ret[e[1]]<ret[e[0]]*succProb[j]){
+                    flag = true;
+                    ret[e[1]]=ret[e[0]]*succProb[j]; 
+                }
+                else if(ret[e[0]]<ret[e[1]]*succProb[j]){
+                    flag = true;
+                    ret[e[0]]=ret[e[1]]*succProb[j];
+                }
+            }
+            if(!flag)
+                break;
+        }
+        return ret[end];
+    }  
+}
