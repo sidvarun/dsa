@@ -28,7 +28,7 @@ public:
                     // left++;
                     // while(left < right && nums[left] == nums[left - 1])
                     //     left++;
-                    res += right - left;
+                    res += right - left; // is sum<target for this value of nums[left] the it will be smaller for all right from right to left because the array is sorted. 
                     left++;
                 }
             }
