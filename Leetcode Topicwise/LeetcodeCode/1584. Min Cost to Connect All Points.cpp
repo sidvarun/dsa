@@ -20,7 +20,6 @@ public:
             pq.pop();
             if(visited.find(curr[1]) != visited.end())
                 continue;
-            count++;
             visited.insert(curr[1]);
             cost += curr[0];
             for(auto j : adj[curr[1]]){
