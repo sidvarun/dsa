@@ -18,7 +18,7 @@ public:
         int l = 0;
         int r = nums.size() - 1;
         
-        pair<string, int> res = {"", INT_MIN};
+        string res = "";
         while(l <= r){
             int mid = l + (r - l) / 2;
             
@@ -26,13 +26,12 @@ public:
                 r = mid - 1;
             
             else{
-                if(res.second < nums[mid].second)
-                    res = {nums[mid].first, nums[mid].second};
+                res = nums[mid].first;
                 l = mid + 1;
             }
         }
         
-        return res.first;
+        return res;
     }
 };
 
