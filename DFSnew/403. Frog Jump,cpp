@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int n;
+    int memo[2000][2000];
+    unordered_map<int, int> m;
+    vector<int> s;
+    bool dfs(int i, int lastJump){
+        
+        if(i == n - 1)
+            return true;
+        
+        if(memo[i][lastJump] != -1)
+            return memo[i][lastJump];
+        
+        bool jump1 = false;
+        bool jump2 = false;
+        bool jump3 = false;
+        
+        if(m.find(s[i] + lastJump - 1) != m.end() &&  lastJump > 1)
+            jump1 = dfs(m[s[i] + lastJump - 1], lastJump - 1);
+        
+        if(m.find(s[i] + lastJump + 1) != m.end())
+            jump2 = dfs(m[s[i] + lastJump + 1], lastJump + 1);   
+        
+        if(m.find(s[i] + lastJump) != m.end())
+            jump3 = dfs(m[s[i] + lastJump], lastJump);
+        
+        return memo[i][lastJump] = jump1 || jump2 || jump3 ? 1 : 0;
+        
+    }
+    
+    bool canCross(vector<int>& stones) {
+        memset(memo, -1, sizeof(memo));
+        n = stones.size();
+        s = stones;
+        for(int i = 0; i<n; i++)
+            m[stones[i]] = i;
+        if(stones[1] - stones[0] > 1)
+            return false;
+        return dfs(1, 1);
+    }
+};
